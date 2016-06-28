@@ -131,7 +131,7 @@ The denoised data can now be used for calculating the phenotypic fingerprint usi
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
 ```
-From the phenotypic fingerprint, alpha diversity metrics can be calculated. `n` is the number of replicates, `d` is a rounding factor which is used to eliminate unstable density values from the dataset. Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
+From the phenotypic fingerprint, alpha diversity metrics can be calculated. `n` is the number of replicates, `d` is a rounding factor which is used to eliminate unstable density values from the dataset. 
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
 ### Densities will be normalized to the interval [0,1]
@@ -142,6 +142,10 @@ Evenness.fbasis  <- Evenness(fbasis,d=3,n=1,plot=FALSE)
 Structural.organization.fbasis  <- So(fbasis,d=3,n=1,plot=FALSE)
 Coef.var.fbasis  <- CV(fbasis,d=3,n=1,plot=FALSE)
 ```
+
+Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
+![plot illustration](https://cloud.githubusercontent.com/assets/19682548/16420401/7b83132c-3d51-11e6-87e3-875d3e2561af.png)
+
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type `getwd()`.  
 ```R
 ### Export ecological data to .csv file in the chosen directory
