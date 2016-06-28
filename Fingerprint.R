@@ -11,7 +11,7 @@ set.seed(777)
 
 ### Insert here the path to your data
 ### Output files will be stored in this directory
-path = "/Users/rprops/Documents/SCK data/Eerste trials/Cyclus2/SYBR"
+path = "path"
 ### Import .fcs data
 flowData <- read.flowSet(path = path, 
                          transformation = FALSE, pattern=".fcs")
