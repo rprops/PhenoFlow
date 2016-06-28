@@ -107,7 +107,7 @@ Now that the data has been formatted, we need to discard all the signals detecte
 ```R
 ### Create a PolygonGate for denoising the dataset
 ### Define coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
-sqrcut1 <- matrix(c(8,8,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
+sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
 colnames(sqrcut1) <- c("FL1-H","FL3-H")
 polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
 
