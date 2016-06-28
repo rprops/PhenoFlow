@@ -62,9 +62,9 @@ Full tutorial data is available at: https://flowrepository.org/id/RvFr3eLf9W5MNL
 ## Load the packages and source code
 Open RStudio and the two scripts. Make sure that your working directory is located where these scripts are saved.
 ```R
-`require('flowFDA')`
-`require("vegan")`
-`require("MESS")`
+require('flowFDA')
+require("vegan")
+require("MESS")
 ```
 The source code MRM.parameters.R contains all the necessary functions.
 ```R
@@ -72,7 +72,7 @@ source("MRM.parameters.R")
 ```
 Set a fixed seed to ensure reproducible analysis
 ```R
-`set.seed(777)`
+set.seed(777)
 ```
 ## Data preparation in R
 Insert the path to your data folder
