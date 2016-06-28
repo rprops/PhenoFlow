@@ -5,11 +5,6 @@
 
 Accompanying code for Props et al. (2016) *Measuring microbial diversity by flow cytometry*. Methods in Ecology and Evolution. 
 
-
-
-![Scheme](https://github.ugent.be/storage/user/1949/files/f5c7feee-1e7b-11e6-85b2-1ab252dc2148)
-<p  align="justify"> Overview of the combined analysis of aqueous microbial ecosystems by flow cytometry analysis (left panels) and the benchmark sequencing pipeline (right panels). The cytometric analysis includes a DNA-nucleic acid staining and flow cytometric measurement followed by subsequent data extraction (a), data denoising (b, gated on fluorescence channel), binned kernel density estimation (c), and diversity calculation (‘phenotypic diversity’). The analysis of three potential bivariate signal channels is shown as an example. </p>
-
 ## Installation of required packages
 From CRAN, the following packages need to be installed:
 ```R
