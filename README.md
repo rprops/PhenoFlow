@@ -118,8 +118,7 @@ xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=polyGate1,
        axis = axis.default, nbin=125, 
        par.strip.text=list(col="white", font=2, cex=2), smooth=FALSE)
 ```
-
-
+Here is an example of a good and bad filtering approach:
 ![My image](https://cloud.githubusercontent.com/assets/19682548/16420078/44b0d5ec-3d50-11e6-800d-10a1e3413ca2.png)
 When the optimal gate has been chosen, the data can be denoised using the `Subset` function.  
 ```R
