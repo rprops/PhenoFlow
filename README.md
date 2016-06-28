@@ -3,7 +3,7 @@
 ===============
 - **Authors**: Ruben Props [Ruben.Props@UGent.be], Pieter Monsieurs, Mohamed Mysara, Lieven Clement, Nico Boon
 
-Accompanying code for Props et al. (2016) *Measuring microbial diversity by flow cytometry*. Methods in Ecology and Evolution. 
+Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
 
 ## Installation of required packages
 From CRAN, the following packages need to be installed:
@@ -46,15 +46,16 @@ FCS.resample | Resamples sample files from flowSet object to an equal number of 
 
 ## Input required by the user
 
-1. Path to .fcs files and path to where the output excel file is to be put.
+- Path to .fcs files and path to where the output excel file is to be put.
 
-2. Gating strategy for isolating the cellular information and discarding the instrument/sample noise.
-
-Output: excel file with the diversity parameters, total cell counts, high nucleic acid (HNA) and low nucleic acid content (LNA) cell counts in the specified gate(s).
-
-Note: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.
+- Gating strategy for isolating the cellular information and discarding the instrument/sample noise.
 
 Full tutorial data is available at: https://flowrepository.org/id/RvFr3eLf9W5MNLBtMv8cQG41U05HcOr1pQ8pTpnFKBYfHAjTiYpbWuweKbSD3mQF
+## Output
+- CSV files with the diversity parameters, total cell counts, high nucleic acid (HNA) and low nucleic acid content (LNA) cell counts in the specified gate(s).  
+
+**Note**: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.  
+
 
 
 # How to use the scripts
@@ -74,13 +75,13 @@ Set a fixed seed to ensure reproducible analysis
 ```R
 set.seed(777)
 ```
-## Data preparation in R
+## Data analysis
 Insert the path to your data folder
 ```R
 path = "yourpath"
 flowData <- read.flowSet(path = path, transformation = FALSE, pattern=".fcs")
 ```
-At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called `flowData_transformed`. Due to filtering of relevant parameters, we also reduce the data size of the `flowSet`. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of memory.
+At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called `flowData_transformed`. Due to filtering of relevant parameters, we also reduce the data size of the `flowSet`. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of RAM.
 
 ```R
 flowData_transformed <- transform(flowData,`FL1-H`=asinh(`FL1-H`), 
@@ -102,10 +103,10 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `SSC-H`=mytrans(`SSC-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
 ```
-Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the `FL1-H` and `FL3-H` parameters. For this example, an initial polyGon gate is created and adjusted based on the sample type in question. For each contained experiment, it is advised to use identical gating for each sample. The choice of gating is evaluated on the `xyplot` and adjusted if necessary.  
+Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the `FL1-H` and `FL3-H` parameters. For this example, an initial polygon gate (`polyGate1`) is created and adjusted based on the sample type in question. For each contained experiment, it is advised to use identical gating for each sample. The choice of gating is evaluated on the `xyplot` and adjusted if necessary.  
 ```R
-### Create a PolygonGate for extracting the single-cell information
-### Input coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
+### Create a PolygonGate for denoising the dataset
+### Define coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
 sqrcut1 <- matrix(c(8,8,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
 colnames(sqrcut1) <- c("FL1-H","FL3-H")
 polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
@@ -128,7 +129,7 @@ The denoised data can now be used for calculating the phenotypic fingerprint usi
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
 ```
-From the phenotypic fingerprint, alpha diversity metrics can be calculated. `n` is the number of relicates, `d` is a rounding factor which is used to eliminate unstable density values from the dataset. Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
+From the phenotypic fingerprint, alpha diversity metrics can be calculated. `n` is the number of replicates, `d` is a rounding factor which is used to eliminate unstable density values from the dataset. Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
 ### Densities will be normalized to the interval [0,1]
@@ -155,10 +156,10 @@ plot(beta.div)
 ```
 It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by Prest et al. (2013)., Monitoring microbiological changes in drinking water systems, _Water Research_.  
 ```R
-### Creating a rectangle gate, set correct threshold here for FL1-H
+### Creating a rectangle gate for counting HNA and LNA cells
 rGate_HNA <- rectangleGate("FL1-H"=c(asinh(20000), 20)/max,"FL3-H"=c(0,20)/max, 
                            filterId = "HNA bacteria")
-### Check if rectangle gate is correct, if not readjust the above line
+### Check if rectangle gate is correct, if not read just the above line
 xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=rGate_HNA,
        scales=list(y=list(limits=c(0,1)),
                    x=list(limits=c(0.4,1))),
