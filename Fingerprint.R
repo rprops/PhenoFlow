@@ -27,6 +27,22 @@ param=c("FL1-H", "FL3-H","SSC-H","FSC-H")
 flowData_transformed = flowData_transformed[,param]
 remove(flowData)
 
+### Create a PolygonGate for extracting the single-cell information
+### Input coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
+sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
+colnames(sqrcut1) <- c("FL1-H","FL3-H")
+polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
+
+###  Gating quality check
+xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=polyGate1,
+       scales=list(y=list(limits=c(0,14)),
+                   x=list(limits=c(6,16))),
+       axis = axis.default, nbin=125, 
+       par.strip.text=list(col="white", font=2, cex=2), smooth=FALSE)
+
+### Isolate only the cellular information based on the polyGate1
+flowData_transformed <- Subset(flowData_transformed, polyGate1)
+
 ### Normalize data between [0,1] on average, 
 ### this is required for using the bw=0.01 in the fingerprint calculation
 summary <- fsApply(x=flowData_transformed,FUN=function(x) apply(x,2,max),use.exprs=TRUE)
@@ -36,23 +52,6 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FL3-H`=mytrans(`FL3-H`), 
                                   `SSC-H`=mytrans(`SSC-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
-
-
-### Create a PolygonGate for extracting the single-cell information
-### Input coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
-sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
-colnames(sqrcut1) <- c("FL1-H","FL3-H")
-polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
-
-###  Gating quality check
-xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=polyGate1,
-       scales=list(y=list(limits=c(0,1)),
-                   x=list(limits=c(0.4,1))),
-       axis = axis.default, nbin=125, 
-       par.strip.text=list(col="white", font=2, cex=2), smooth=FALSE)
-
-### Isolate only the cellular information based on the polyGate1
-flowData_transformed <- Subset(flowData_transformed, polyGate1)
 
 ### Calculate fingerprint with bw = 0.01
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
