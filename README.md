@@ -92,6 +92,29 @@ param=c("FL1-H", "FL3-H","SSC-H","FSC-H")
 flowData_transformed = flowData_transformed[,param]
 remove(flowData)
 ```
+Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the `FL1-H` and `FL3-H` parameters. For this example, an initial polygon gate (`polyGate1`) is created and adjusted based on the sample type in question. For each contained experiment, it is advised to use identical gating for each sample. The choice of gating is evaluated on the `xyplot` and adjusted if necessary.  
+```R
+### Create a PolygonGate for denoising the dataset
+### Define coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
+sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3),ncol=2, nrow=4)
+colnames(sqrcut1) <- c("FL1-H","FL3-H")
+polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
+
+###  Gating quality check
+xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=polyGate1,
+       scales=list(y=list(limits=c(0,14)),
+                   x=list(limits=c(6,16))),
+       axis = axis.default, nbin=125, 
+       par.strip.text=list(col="white", font=2, cex=2), smooth=FALSE)
+```
+Here is an example of a good and bad filtering approach:
+![My image](https://cloud.githubusercontent.com/assets/19682548/16420078/44b0d5ec-3d50-11e6-800d-10a1e3413ca2.png)
+When the optimal gate has been chosen, the data can be denoised using the `Subset` function.  
+
+```R
+### Isolate only the cellular information based on the polyGate1
+flowData_transformed <- Subset(flowData_transformed, polyGate1)
+```
 Next, the phenotypic intensity values of each cell are normalized to the [0,1] range. This is required for using a bandwidth of 0.01 in the fingerprint calculation. Each parameter is normalized based on the average FL1-H intensity value over the data set.
 
 ```R
@@ -103,28 +126,7 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `SSC-H`=mytrans(`SSC-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
 ```
-Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the `FL1-H` and `FL3-H` parameters. For this example, an initial polygon gate (`polyGate1`) is created and adjusted based on the sample type in question. For each contained experiment, it is advised to use identical gating for each sample. The choice of gating is evaluated on the `xyplot` and adjusted if necessary.  
-```R
-### Create a PolygonGate for denoising the dataset
-### Define coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
-sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
-colnames(sqrcut1) <- c("FL1-H","FL3-H")
-polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
 
-###  Gating quality check
-xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=polyGate1,
-       scales=list(y=list(limits=c(0,1)),
-                   x=list(limits=c(0.4,1))),
-       axis = axis.default, nbin=125, 
-       par.strip.text=list(col="white", font=2, cex=2), smooth=FALSE)
-```
-Here is an example of a good and bad filtering approach:
-![My image](https://cloud.githubusercontent.com/assets/19682548/16420078/44b0d5ec-3d50-11e6-800d-10a1e3413ca2.png)
-When the optimal gate has been chosen, the data can be denoised using the `Subset` function.  
-```R
-### Isolate only the cellular information based on the polyGate1
-flowData_transformed <- Subset(flowData_transformed, polyGate1)
-```
 The denoised data can now be used for calculating the phenotypic fingerprint using the `flowBasis` function. Changing `nbin` increases the grid resolution of the density estimation but also steeply increases the computation time.
 ```R
 ### Calculate fingerprint with bw = 0.01
