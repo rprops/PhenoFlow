@@ -1,4 +1,4 @@
-#PhenoFlow _(1.0)_
+#PhenoFlow _(v1.0)_
 ##Phenotypic alpha-diversity and beta-diversity parameters for flow cytometry data of microbial communities
 ===============
 - **Authors**: Ruben Props [Ruben.Props@UGent.be], Pieter Monsieurs, Mohamed Mysara, Lieven Clement, Nico Boon
