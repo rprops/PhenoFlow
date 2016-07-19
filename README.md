@@ -6,7 +6,6 @@
 Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
 
 The goal of this method is to translate (longitudinal) flow cytometry data, such as depicted below, into diversity estimates of microbial communities, which can be compared with 16S amplicon data sets. 
-
 ![alt text][logo]
 [logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation.gif "Logo Title Text 2"
 
