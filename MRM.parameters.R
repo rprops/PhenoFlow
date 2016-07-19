@@ -2,30 +2,6 @@ require("vegan")
 require("MESS")
 require("flowFDA")
 
-### Some small functions for averaging replicates
-trip <- function(x,n=3){
-  y = c(); s = c()
-  j=1
-  for(i in seq(1,length(x),by=n)){
-    y[j] = mean(x[i:(i+n-1)])
-    s[j] = sd(x[i:(i+n-1)])
-    j=j+1
-  }
-  y=cbind(y,s)
-  return(y)
-}
-
-trip_col <- function(x,n=3){
-  y = c()
-  j=1
-  for(i in seq(1,length(x),by=n)){
-    y[j] = x[(i+n-1)]
-    j=j+1
-  }
-  return(y)
-}
-
-
 ### Diversity from FCM data (Hill numbers D0, D1 and D2)
 ### x = flowBasis object from fingerprint (e.g., fingerprint)
 ### d = threshold for denoising
@@ -272,6 +248,29 @@ time.discretization <- function(flowData_transformed,analysis.length,create=FALS
     }
     setwd(old.wd)
   }
+}
+
+### Some small functions for averaging replicates
+trip <- function(x,n=3){
+  y = c(); s = c()
+  j=1
+  for(i in seq(1,length(x),by=n)){
+    y[j] = mean(x[i:(i+n-1)])
+    s[j] = sd(x[i:(i+n-1)])
+    j=j+1
+  }
+  y=cbind(y,s)
+  return(y)
+}
+
+trip_col <- function(x,n=3){
+  y = c()
+  j=1
+  for(i in seq(1,length(x),by=n)){
+    y[j] = x[(i+n-1)]
+    j=j+1
+  }
+  return(y)
 }
 
 ################################################################################
