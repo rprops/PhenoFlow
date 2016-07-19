@@ -5,6 +5,8 @@
 
 Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
 
+![alt text][Animation.gif]
+
 ## Installation of required packages
 From CRAN, the following packages need to be installed:
 ```R
