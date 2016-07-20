@@ -4,6 +4,7 @@
 - **Authors**: Ruben Props [Ruben.Props@UGent.be], Pieter Monsieurs, Mohamed Mysara, Lieven Clement, Nico Boon
 
 Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
+
 The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below, which can be compared with 16S amplicon data sets. 
 ![alt text][logo]
 [logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation_low_res.gif "Logo Title Text 2"
