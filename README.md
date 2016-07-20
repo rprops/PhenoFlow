@@ -7,7 +7,7 @@ Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-2
 
 The goal of this method is to translate (longitudinal) flow cytometry data, such as depicted below, into diversity estimates of microbial communities, which can be compared with 16S amplicon data sets. 
 ![alt text][logo]
-[logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation.gif "Logo Title Text 2"
+[logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation.v2.gif "Logo Title Text 2"
 
 ## Installation of required packages
 From CRAN, the following packages need to be installed:
