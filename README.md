@@ -143,9 +143,9 @@ fbasis <- flowBasis(flowData_transformed, param, nbin=128,
 ### n = number of replicates
 ### d = rounding factor
 Diversity.fbasis <- Diversity(fbasis,d=3,n=1,plot=FALSE)
-Evenness.fbasis  <- Evenness(fbasis,d=3,n=1,plot=FALSE)
-Structural.organization.fbasis  <- So(fbasis,d=3,n=1,plot=FALSE)
-Coef.var.fbasis  <- CV(fbasis,d=3,n=1,plot=FALSE)
+Evenness.fbasis <- Evenness(fbasis,d=3,n=1,plot=FALSE)
+Structural.organization.fbasis <- So(fbasis,d=3,n=1,plot=FALSE)
+Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
 ```
 
 Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
