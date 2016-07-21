@@ -167,8 +167,8 @@ plot(beta.div)
 ```
 <p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
 
-<p align="justify"><b>_Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer._
-_For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples_</b></p>
+<p align="justify"><b>_Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer.
+For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples_</b></p>
 ```R
 ### Creating a rectangle gate for counting HNA and LNA cells
 rGate_HNA <- rectangleGate("FL1-H"=c(asinh(20000), 20)/max,"FL3-H"=c(0,20)/max, 
