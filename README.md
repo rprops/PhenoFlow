@@ -3,9 +3,9 @@
 ===============
 - **Authors**: Ruben Props [Ruben.Props@UGent.be], Pieter Monsieurs, Mohamed Mysara, Lieven Clement, Nico Boon
 
-<p align="justify">Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
+Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
 
-The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S amplicon data sets. 
+<p align="justify">The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S amplicon data sets. </p>
 ![alt text][logo]
 [logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation_low_res.gif "Logo Title Text 2"
 
@@ -169,7 +169,7 @@ plot(beta.div)
 It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.
 
 <b>_Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer._
-_For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples_</b></p>
+_For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples_</b>
 ```R
 ### Creating a rectangle gate for counting HNA and LNA cells
 rGate_HNA <- rectangleGate("FL1-H"=c(asinh(20000), 20)/max,"FL3-H"=c(0,20)/max, 
