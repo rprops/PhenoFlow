@@ -26,7 +26,7 @@ biocLite("flowCore")
 source("https://bioconductor.org/biocLite.R")
 biocLite("flowViz")
 ```
-Next, install the flowFDA package from https://github.com/lievenclement/flowFDA. Or, alternatively download the package from this repository and unzip it directly into the R library folder.
+<p align="justify">Next, install the flowFDA package from https://github.com/lievenclement/flowFDA. Or, alternatively download the package from this repository and unzip it directly into the R library folder.</p>
 
 ## Scripts and functions
 Script  | Content
@@ -49,7 +49,7 @@ time.discretization | Function for subsetting .fcs files in time intervals and e
 FCS.resample | Resamples sample files from flowSet object to an equal number of cells. Standard is to the minimum sample size.
 
 ## Input required by the user
-
+<p align="justify">
 - Path to .fcs files and path to where the output excel file is to be put.
 
 - Gating strategy for isolating the cellular information and discarding the instrument/sample noise.
@@ -58,8 +58,7 @@ Full tutorial data is available at: https://flowrepository.org/id/RvFr3eLf9W5MNL
 ## Output
 - CSV files with the diversity parameters, total cell counts, high nucleic acid (HNA) and low nucleic acid content (LNA) cell counts in the specified gate(s).  
 
-**Note**: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.  
-
+**Note**: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.</p>
 
 
 # How to use the scripts
