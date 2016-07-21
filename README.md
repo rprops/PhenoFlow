@@ -7,7 +7,7 @@ Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-2
 
 <p align="justify">The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S amplicon data sets. </p>
 ![alt text][logo]
-[logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation_low_res.gif "Logo Title Text 2"
+[logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation_low_res.gif "Figure 1"
 
 ## Installation of required packages
 From CRAN, the following packages need to be installed:
