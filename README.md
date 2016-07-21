@@ -49,7 +49,7 @@ time.discretization | Function for subsetting .fcs files in time intervals and e
 FCS.resample | Resamples sample files from flowSet object to an equal number of cells. Standard is to the minimum sample size.
 
 ## Input required by the user
-<p align="justify">
+
 - Path to .fcs files and path to where the output excel file is to be put.
 
 - Gating strategy for isolating the cellular information and discarding the instrument/sample noise.
@@ -58,7 +58,7 @@ Full tutorial data is available at: https://flowrepository.org/id/RvFr3eLf9W5MNL
 ## Output
 - CSV files with the diversity parameters, total cell counts, high nucleic acid (HNA) and low nucleic acid content (LNA) cell counts in the specified gate(s).  
 
-**Note**: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.</p>
+<p align="justify">**Note**: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.</p>
 
 
 # How to use the scripts
@@ -84,7 +84,7 @@ Insert the path to your data folder, for example test_data for the tutorial data
 path = "test_data"
 flowData <- read.flowSet(path = test_data, transformation = FALSE, pattern=".fcs")
 ```
-At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called `flowData_transformed`. Due to filtering of relevant parameters, we also reduce the data size of the `flowSet`. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of RAM.
+<p align="justify">At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called `flowData_transformed`. Due to filtering of relevant parameters, we also reduce the data size of the `flowSet`. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of RAM.</p>
 
 ```R
 flowData_transformed <- transform(flowData,`FL1-H`=asinh(`FL1-H`), 
@@ -95,7 +95,7 @@ param=c("FL1-H", "FL3-H","SSC-H","FSC-H")
 flowData_transformed = flowData_transformed[,param]
 remove(flowData)
 ```
-Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the `FL1-H` and `FL3-H` parameters. For this example, an initial polygon gate (`polyGate1`) is created and adjusted based on the sample type in question. For each contained experiment, it is advised to use identical gating for each sample. The choice of gating is evaluated on the `xyplot` and adjusted if necessary. A more detailed guideline for gating aqueous microbial samples can be found <a href="http://jornades.uab.cat/workshopmrama/sites/jornades.uab.cat.workshopmrama/files/Assessing_water_quality_with_the_BD_Accuri_C6_flow_cytometer.pdf">here</a> (p.6):
+<p align="justify">Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the `FL1-H` and `FL3-H` parameters. For this example, an initial polygon gate (`polyGate1`) is created and adjusted based on the sample type in question. For each contained experiment, it is advised to use identical gating for each sample. The choice of gating is evaluated on the `xyplot` and adjusted if necessary. A more detailed guideline for gating aqueous microbial samples can be found <a href="http://jornades.uab.cat/workshopmrama/sites/jornades.uab.cat.workshopmrama/files/Assessing_water_quality_with_the_BD_Accuri_C6_flow_cytometer.pdf">here</a> (p.6):</p>
 ```R
 ### Create a PolygonGate for denoising the dataset
 ### Define coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
@@ -118,7 +118,7 @@ When the optimal gate has been chosen, the data can be denoised using the `Subse
 ### Isolate only the cellular information based on the polyGate1
 flowData_transformed <- Subset(flowData_transformed, polyGate1)
 ```
-Next, the phenotypic intensity values of each cell are normalized to the [0,1] range. This is required for using a bandwidth of 0.01 in the fingerprint calculation. Each parameter is normalized based on the average maximum FL1-H intensity value over the data set.
+<p align="justify">Next, the phenotypic intensity values of each cell are normalized to the [0,1] range. This is required for using a bandwidth of 0.01 in the fingerprint calculation. Each parameter is normalized based on the average maximum FL1-H intensity value over the data set.</p>
 
 ```R
 summary <- fsApply(x=flowData_transformed,FUN=function(x) apply(x,2,max),use.exprs=TRUE)
@@ -130,13 +130,13 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
 ```
 
-The denoised data can now be used for calculating the phenotypic fingerprint using the `flowBasis` function. Changing `nbin` increases the grid resolution of the density estimation but also steeply increases the computation time.
+<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the `flowBasis` function. Changing `nbin` increases the grid resolution of the density estimation but also steeply increases the computation time.</p>
 ```R
 ### Calculate fingerprint with bw = 0.01
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
 ```
-From the phenotypic fingerprint, alpha diversity metrics can be calculated. `n` is the number of replicates, `d` is a rounding factor which is used to eliminate unstable density values from the dataset. 
+<p align="justify">From the phenotypic fingerprint, alpha diversity metrics can be calculated. `n` is the number of replicates, `d` is a rounding factor which is used to eliminate unstable density values from the dataset. </p>
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
 ### Densities will be normalized to the interval [0,1]
@@ -165,10 +165,10 @@ Optionally, you can also perform a beta diversity analysis using Non-metric Mult
 beta.div <- beta.div.fcm(fbasis,n=1)
 plot(beta.div)
 ```
-It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.
+<p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
 
-<b>_Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer._
-_For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples_</b>
+<p align="justify"><b>_Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer._
+_For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples_</b></p>
 ```R
 ### Creating a rectangle gate for counting HNA and LNA cells
 rGate_HNA <- rectangleGate("FL1-H"=c(asinh(20000), 20)/max,"FL3-H"=c(0,20)/max, 
