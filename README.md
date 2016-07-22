@@ -58,7 +58,7 @@ Full tutorial data is available at: https://flowrepository.org/id/RvFr3eLf9W5MNL
 ## Output
 - CSV files with the diversity parameters, total cell counts, high nucleic acid (HNA) and low nucleic acid content (LNA) cell counts in the specified gate(s).  
 
-<p align="justify">**Note**: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.</p>
+<p align="justify"><b>Note: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.</b></p>
 
 
 # How to use the scripts
