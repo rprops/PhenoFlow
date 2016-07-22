@@ -136,7 +136,7 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
 ```
-<p align="justify">From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of replicates, <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. </p>
+<p align="justify">From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of replicates, <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
 ### Densities will be normalized to the interval [0,1]
