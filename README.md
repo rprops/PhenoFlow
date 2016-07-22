@@ -130,7 +130,7 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
 ```
 
-<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing `nbin` increases the grid resolution of the density estimation but also steeply increases the computation time.</p>
+<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time.</p>
 ```R
 ### Calculate fingerprint with bw = 0.01
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
