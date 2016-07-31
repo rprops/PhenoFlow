@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Phenoflow by rprops</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Phenoflow</h1>
+      <h2 class="project-tagline">Phenotypic alpha-diversity and beta-diversity parameters for flow cytometry data of microbial communities</h2>
+      <a href="https://github.com/rprops/PhenoFlow" class="btn">View on GitHub</a>
+      <a href="https://github.com/rprops/PhenoFlow/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/rprops/PhenoFlow/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="phenoflow-v10" class="anchor" href="#phenoflow-v10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PhenoFlow <em>(v1.0)</em>
+</h1>
+
+<h2>
+<a id="phenotypic-alpha-diversity-and-beta-diversity-parameters-for-flow-cytometry-data-of-microbial-communities" class="anchor" href="#phenotypic-alpha-diversity-and-beta-diversity-parameters-for-flow-cytometry-data-of-microbial-communities" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Phenotypic alpha-diversity and beta-diversity parameters for flow cytometry data of microbial communities</h2>
+
+<h1></h1>
+
+<ul>
+<li>
+<strong>Authors</strong>: Ruben Props [<a href="mailto:Ruben.Props@UGent.be">Ruben.Props@UGent.be</a>], Pieter Monsieurs, Mohamed Mysara, Lieven Clement, Nico Boon</li>
+</ul>
+
+<p>Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, <em>Methods in Ecology and Evolution</em>, doi:10.1111/2041-210X.12607</a></p>
+
+<p align="justify">The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S amplicon data sets. </p>
+
+<p><img src="https://github.com/rprops/PhenoFlow/blob/master/Animation_low_res.gif" alt="alt text" title="Figure 1"></p>
+
+<h2>
+<a id="installation-of-required-packages" class="anchor" href="#installation-of-required-packages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation of required packages</h2>
+
+<p>From CRAN, the following packages need to be installed:</p>
+
+<div class="highlight highlight-source-r"><pre>install.packages(<span class="pl-s"><span class="pl-pds">"</span>mclust<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>vegan<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>MESS<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>multcomp<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>KernSmooth<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>mvtnorm<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>lattice<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>survival<span class="pl-pds">"</span></span>)
+install.packages(<span class="pl-s"><span class="pl-pds">"</span>TH.data<span class="pl-pds">"</span></span>)
+source(<span class="pl-s"><span class="pl-pds">"</span>https://bioconductor.org/biocLite.R<span class="pl-pds">"</span></span>)
+biocLite(<span class="pl-s"><span class="pl-pds">"</span>flowCore<span class="pl-pds">"</span></span>)
+source(<span class="pl-s"><span class="pl-pds">"</span>https://bioconductor.org/biocLite.R<span class="pl-pds">"</span></span>)
+biocLite(<span class="pl-s"><span class="pl-pds">"</span>flowViz<span class="pl-pds">"</span></span>)</pre></div>
+
+<p align="justify">Next, install the flowFDA package from https://github.com/lievenclement/flowFDA. Or, alternatively download the package from this repository and unzip it directly into the R library folder.</p>
+
+<h2>
+<a id="scripts-and-functions" class="anchor" href="#scripts-and-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scripts and functions</h2>
+
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MRM.parameters.R</td>
+<td>Contains the functions used for calculating the phenotypic diversity</td>
+</tr>
+<tr>
+<td>Fingerprint.R</td>
+<td>Code for assessing the phenotypic diversity and cell counts from flow cytometry tutorial data</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Functions</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>flowBasis</td>
+<td>Function part of the flowFDA package (in development) which performes bivariate kernel density estimations on the phenotypic parameters</td>
+</tr>
+<tr>
+<td>trip/trip_col</td>
+<td>Small functions for taking replicate averages and the corresponding sample names</td>
+</tr>
+<tr>
+<td>Diversity</td>
+<td>Calculation of Hill diversities of order 0, 1 and 2 from fingerprint object</td>
+</tr>
+<tr>
+<td>Evenness</td>
+<td>Calculation of pareto evenness (Wittebolle L. et al. (2009)) from fingerprint object (1 = maximum evenness, 0 = minimum evenness)</td>
+</tr>
+<tr>
+<td>cum_Richness</td>
+<td>Used in Evenness function for calculating cumulative density functions</td>
+</tr>
+<tr>
+<td>So</td>
+<td>Calculation of Structural Organization parameter (Koch et al. (2014), Frontiers in Microbiology)</td>
+</tr>
+<tr>
+<td>CV</td>
+<td>Calculation of Coefficient of Variation (CV) of the fingerprint object</td>
+</tr>
+<tr>
+<td>beta.diversity.fcm</td>
+<td>Non-metric Multidimensional Scaling (NMDS) of the phenotypic fingerprint</td>
+</tr>
+<tr>
+<td>dist.fcm</td>
+<td>Calculating distance matrix between fingerprints</td>
+</tr>
+<tr>
+<td>time.discretization</td>
+<td>Function for subsetting .fcs files in time intervals and exporting them as new .fcs files. Designed for the analysis of on-line experiments.</td>
+</tr>
+<tr>
+<td>FCS.resample</td>
+<td>Resamples sample files from flowSet object to an equal number of cells. Standard is to the minimum sample size.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="input-required-by-the-user" class="anchor" href="#input-required-by-the-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input required by the user</h2>
+
+<ul>
+<li><p>Path to .fcs files and path to where the output excel file is to be put.</p></li>
+<li><p>Gating strategy for isolating the cellular information and discarding the instrument/sample noise.</p></li>
+</ul>
+
+<p>Full tutorial data is available at: <a href="https://flowrepository.org/id/RvFr3eLf9W5MNLBtMv8cQG41U05HcOr1pQ8pTpnFKBYfHAjTiYpbWuweKbSD3mQF">https://flowrepository.org/id/RvFr3eLf9W5MNLBtMv8cQG41U05HcOr1pQ8pTpnFKBYfHAjTiYpbWuweKbSD3mQF</a></p>
+
+<h2>
+<a id="output" class="anchor" href="#output" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Output</h2>
+
+<ul>
+<li>CSV files with the diversity parameters, total cell counts, high nucleic acid (HNA) and low nucleic acid content (LNA) cell counts in the specified gate(s).<br>
+</li>
+</ul>
+
+<p align="justify"><b>Note: different flow cytometers may use different nomenclature for detector signals, e.g., FL1-H can be named FL1 log in the .fcs file. The fingerprint.R script will have to be adjusted accordingly.</b></p>
+
+<h1>
+<a id="how-to-use-the-scripts" class="anchor" href="#how-to-use-the-scripts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use the scripts</h1>
+
+<h2>
+<a id="load-the-packages-and-source-code" class="anchor" href="#load-the-packages-and-source-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Load the packages and source code</h2>
+
+<p>Open RStudio and the two scripts. Make sure that your working directory is located where these scripts are saved.</p>
+
+<div class="highlight highlight-source-r"><pre>require(<span class="pl-s"><span class="pl-pds">'</span>flowFDA<span class="pl-pds">'</span></span>)
+require(<span class="pl-s"><span class="pl-pds">"</span>vegan<span class="pl-pds">"</span></span>)
+require(<span class="pl-s"><span class="pl-pds">"</span>MESS<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>The source code MRM.parameters.R contains all the necessary functions.</p>
+
+<div class="highlight highlight-source-r"><pre>source(<span class="pl-s"><span class="pl-pds">"</span>MRM.parameters.R<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>Set a fixed seed to ensure reproducible analysis</p>
+
+<div class="highlight highlight-source-r"><pre>set.seed(<span class="pl-c1">777</span>)</pre></div>
+
+<h2>
+<a id="data-analysis" class="anchor" href="#data-analysis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data analysis</h2>
+
+<p>Insert the path to your data folder, for example test_data for the tutorial data.</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-v">path</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>test_data<span class="pl-pds">"</span></span>
+<span class="pl-smi">flowData</span> <span class="pl-k">&lt;-</span> read.flowSet(<span class="pl-v">path</span> <span class="pl-k">=</span> <span class="pl-smi">test_data</span>, <span class="pl-v">transformation</span> <span class="pl-k">=</span> <span class="pl-c1">FALSE</span>, <span class="pl-v">pattern</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>.fcs<span class="pl-pds">"</span></span>)</pre></div>
+
+<p align="justify">At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called <code>flowData_transformed</code>. Due to filtering of relevant parameters, we also reduce the data size of the <code>flowSet</code>. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of RAM.</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-smi">flowData_transformed</span> <span class="pl-k">&lt;-</span> transform(<span class="pl-smi">flowData</span>,`<span class="pl-smi">FL1</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>asinh(`<span class="pl-smi">FL1</span><span class="pl-k">-</span><span class="pl-smi">H</span>`), 
+                                   `<span class="pl-smi">SSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>asinh(`<span class="pl-smi">SSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`), 
+                                   `<span class="pl-smi">FL3</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>asinh(`<span class="pl-smi">FL3</span><span class="pl-k">-</span><span class="pl-smi">H</span>`), 
+                                   `<span class="pl-smi">FSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>asinh(`<span class="pl-smi">FSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`))
+<span class="pl-v">param</span><span class="pl-k">=</span>c(<span class="pl-s"><span class="pl-pds">"</span>FL1-H<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>FL3-H<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>SSC-H<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>FSC-H<span class="pl-pds">"</span></span>)
+<span class="pl-v">flowData_transformed</span> <span class="pl-k">=</span> <span class="pl-smi">flowData_transformed</span>[,<span class="pl-smi">param</span>]
+remove(<span class="pl-smi">flowData</span>)</pre></div>
+
+<p align="justify">Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the <code>FL1-H</code> and <code>FL3-H</code> parameters. For this example, an initial polygon gate (<code>polyGate1</code>) is created and adjusted based on the sample type in question. For each specific experiment, it is advised to use identical gating for each sample. The gating strategy is evaluated on the <code>xyplot</code> and adjusted if necessary. A more detailed guideline for gating or denoising aqueous microbial samples can be found <a href="http://jornades.uab.cat/workshopmrama/sites/jornades.uab.cat.workshopmrama/files/Assessing_water_quality_with_the_BD_Accuri_C6_flow_cytometer.pdf">here</a> (p.6):</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">### Create a PolygonGate for denoising the dataset</span>
+<span class="pl-c">### Define coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)</span>
+<span class="pl-smi">sqrcut1</span> <span class="pl-k">&lt;-</span> <span class="pl-k">matrix</span>(c(<span class="pl-c1">8.75</span>,<span class="pl-c1">8.75</span>,<span class="pl-c1">14</span>,<span class="pl-c1">14</span>,<span class="pl-c1">3</span>,<span class="pl-c1">7.5</span>,<span class="pl-c1">14</span>,<span class="pl-c1">3</span>),<span class="pl-v">ncol</span><span class="pl-k">=</span><span class="pl-c1">2</span>, <span class="pl-v">nrow</span><span class="pl-k">=</span><span class="pl-c1">4</span>)
+colnames(<span class="pl-smi">sqrcut1</span>) <span class="pl-k">&lt;-</span> c(<span class="pl-s"><span class="pl-pds">"</span>FL1-H<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>FL3-H<span class="pl-pds">"</span></span>)
+<span class="pl-smi">polyGate1</span> <span class="pl-k">&lt;-</span> polygonGate(<span class="pl-v">.gate</span><span class="pl-k">=</span><span class="pl-smi">sqrcut1</span>, <span class="pl-v">filterId</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Total Cells<span class="pl-pds">"</span></span>)
+
+<span class="pl-c">###  Gating quality check</span>
+xyplot(`<span class="pl-smi">FL3</span><span class="pl-k">-</span><span class="pl-smi">H</span>` <span class="pl-k">~</span> `<span class="pl-smi">FL1</span><span class="pl-k">-</span><span class="pl-smi">H</span>`, <span class="pl-v">data</span><span class="pl-k">=</span><span class="pl-smi">flowData_transformed</span>[<span class="pl-c1">1</span>], <span class="pl-v">filter</span><span class="pl-k">=</span><span class="pl-smi">polyGate1</span>,
+       <span class="pl-v">scales</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">y</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">limits</span><span class="pl-k">=</span>c(<span class="pl-c1">0</span>,<span class="pl-c1">14</span>)),
+                   <span class="pl-v">x</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">limits</span><span class="pl-k">=</span>c(<span class="pl-c1">6</span>,<span class="pl-c1">16</span>))),
+       <span class="pl-v">axis</span> <span class="pl-k">=</span> <span class="pl-smi">axis.default</span>, <span class="pl-v">nbin</span><span class="pl-k">=</span><span class="pl-c1">125</span>, 
+       <span class="pl-v">par.strip.text</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">col</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>white<span class="pl-pds">"</span></span>, <span class="pl-v">font</span><span class="pl-k">=</span><span class="pl-c1">2</span>, <span class="pl-v">cex</span><span class="pl-k">=</span><span class="pl-c1">2</span>), <span class="pl-v">smooth</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)</pre></div>
+
+<p>Here is an example of a good and bad filtering approach:
+<img src="https://cloud.githubusercontent.com/assets/19682548/16420078/44b0d5ec-3d50-11e6-800d-10a1e3413ca2.png" alt="My image">
+When the optimal gate has been chosen, the data can be denoised using the <code>Subset</code> function.  </p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">### Isolate only the cellular information based on the polyGate1</span>
+<span class="pl-smi">flowData_transformed</span> <span class="pl-k">&lt;-</span> Subset(<span class="pl-smi">flowData_transformed</span>, <span class="pl-smi">polyGate1</span>)</pre></div>
+
+<p align="justify">Next, the phenotypic intensity values of each cell are normalized to the [0,1] range. This is required for using a bandwidth of 0.01 in the fingerprint calculation. Each parameter is normalized based on the average maximum FL1-H intensity value over the data set.</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-smi">summary</span> <span class="pl-k">&lt;-</span> fsApply(<span class="pl-v">x</span><span class="pl-k">=</span><span class="pl-smi">flowData_transformed</span>,<span class="pl-v">FUN</span><span class="pl-k">=</span><span class="pl-k">function</span>(<span class="pl-smi">x</span>) apply(<span class="pl-smi">x</span>,<span class="pl-c1">2</span>,<span class="pl-smi">max</span>),<span class="pl-v">use.exprs</span><span class="pl-k">=</span><span class="pl-c1">TRUE</span>)
+<span class="pl-v">max</span> <span class="pl-k">=</span> mean(<span class="pl-smi">summary</span>[,<span class="pl-c1">1</span>])
+<span class="pl-en">mytrans</span> <span class="pl-k">&lt;-</span> <span class="pl-k">function</span>(<span class="pl-smi">x</span>) <span class="pl-smi">x</span><span class="pl-k">/</span><span class="pl-smi">max</span>
+<span class="pl-smi">flowData_transformed</span> <span class="pl-k">&lt;-</span> transform(<span class="pl-smi">flowData_transformed</span>,`<span class="pl-smi">FL1</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>mytrans(`<span class="pl-smi">FL1</span><span class="pl-k">-</span><span class="pl-smi">H</span>`),
+                                  `<span class="pl-smi">FL3</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>mytrans(`<span class="pl-smi">FL3</span><span class="pl-k">-</span><span class="pl-smi">H</span>`), 
+                                  `<span class="pl-smi">SSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>mytrans(`<span class="pl-smi">SSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`),
+                                  `<span class="pl-smi">FSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`<span class="pl-k">=</span>mytrans(`<span class="pl-smi">FSC</span><span class="pl-k">-</span><span class="pl-smi">H</span>`))</pre></div>
+
+<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time.</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">### Calculate fingerprint with bw = 0.01</span>
+<span class="pl-smi">fbasis</span> <span class="pl-k">&lt;-</span> flowBasis(<span class="pl-smi">flowData_transformed</span>, <span class="pl-smi">param</span>, <span class="pl-v">nbin</span><span class="pl-k">=</span><span class="pl-c1">128</span>, 
+                   <span class="pl-v">bw</span><span class="pl-k">=</span><span class="pl-c1">0.01</span>,<span class="pl-v">normalize</span><span class="pl-k">=</span><span class="pl-k">function</span>(<span class="pl-smi">x</span>) <span class="pl-smi">x</span>)</pre></div>
+
+<p align="justify">From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of replicates, <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">### Calculate ecological parameters from normalized fingerprint </span>
+<span class="pl-c">### Densities will be normalized to the interval [0,1]</span>
+<span class="pl-c">### n = number of replicates</span>
+<span class="pl-c">### d = rounding factor</span>
+<span class="pl-smi">Diversity.fbasis</span> <span class="pl-k">&lt;-</span> Diversity(<span class="pl-smi">fbasis</span>,<span class="pl-v">d</span><span class="pl-k">=</span><span class="pl-c1">3</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>,<span class="pl-v">plot</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)
+<span class="pl-smi">Evenness.fbasis</span> <span class="pl-k">&lt;-</span> Evenness(<span class="pl-smi">fbasis</span>,<span class="pl-v">d</span><span class="pl-k">=</span><span class="pl-c1">3</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>,<span class="pl-v">plot</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)
+<span class="pl-smi">Structural.organization.fbasis</span> <span class="pl-k">&lt;-</span> So(<span class="pl-smi">fbasis</span>,<span class="pl-v">d</span><span class="pl-k">=</span><span class="pl-c1">3</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>,<span class="pl-v">plot</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)
+<span class="pl-smi">Coef.var.fbasis</span> <span class="pl-k">&lt;-</span> CV(<span class="pl-smi">fbasis</span>,<span class="pl-v">d</span><span class="pl-k">=</span><span class="pl-c1">3</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>,<span class="pl-v">plot</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)</pre></div>
+
+<p>Add the argument <code>plot=TRUE</code> in case a quick plot of the diversity values is desired.
+<img src="https://cloud.githubusercontent.com/assets/19682548/16420401/7b83132c-3d51-11e6-87e3-875d3e2561af.png" alt="plot illustration"></p>
+
+<p>Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  </p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">### Export ecological data to .csv file in the chosen directory</span>
+write.csv2(<span class="pl-v">file</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>results.metrics.csv<span class="pl-pds">"</span></span>,
+           cbind(<span class="pl-smi">Diversity.fbasis</span>, <span class="pl-smi">Evenness.fbasis</span>,
+                                          <span class="pl-smi">Structural.organization.fbasis</span>,
+                 <span class="pl-smi">Coef.var.fbasis</span>))</pre></div>
+
+<p>Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) from the <code>vegan</code> package.  </p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">### Beta-diversity assessment of fingerprint</span>
+<span class="pl-smi">beta.div</span> <span class="pl-k">&lt;-</span> beta.div.fcm(<span class="pl-smi">fbasis</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>)
+plot(<span class="pl-smi">beta.div</span>)</pre></div>
+
+<p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
+
+<p align="justify"><b>Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer.
+For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples.</b></p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">### Creating a rectangle gate for counting HNA and LNA cells</span>
+<span class="pl-smi">rGate_HNA</span> <span class="pl-k">&lt;-</span> rectangleGate(<span class="pl-s"><span class="pl-pds">"</span>FL1-H<span class="pl-pds">"</span></span><span class="pl-k">=</span>c(asinh(<span class="pl-c1">20000</span>), <span class="pl-c1">20</span>)<span class="pl-k">/</span><span class="pl-smi">max</span>,<span class="pl-s"><span class="pl-pds">"</span>FL3-H<span class="pl-pds">"</span></span><span class="pl-k">=</span>c(<span class="pl-c1">0</span>,<span class="pl-c1">20</span>)<span class="pl-k">/</span><span class="pl-smi">max</span>, 
+                           <span class="pl-v">filterId</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>HNA bacteria<span class="pl-pds">"</span></span>)
+<span class="pl-c">### Check if rectangle gate is correct, if not, adjust rGate_HNA</span>
+xyplot(`<span class="pl-smi">FL3</span><span class="pl-k">-</span><span class="pl-smi">H</span>` <span class="pl-k">~</span> `<span class="pl-smi">FL1</span><span class="pl-k">-</span><span class="pl-smi">H</span>`, <span class="pl-v">data</span><span class="pl-k">=</span><span class="pl-smi">flowData_transformed</span>[<span class="pl-c1">1</span>], <span class="pl-v">filter</span><span class="pl-k">=</span><span class="pl-smi">rGate_HNA</span>,
+       <span class="pl-v">scales</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">y</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">limits</span><span class="pl-k">=</span>c(<span class="pl-c1">0</span>,<span class="pl-c1">1</span>)),
+                   <span class="pl-v">x</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">limits</span><span class="pl-k">=</span>c(<span class="pl-c1">0.4</span>,<span class="pl-c1">1</span>))),
+       <span class="pl-v">axis</span> <span class="pl-k">=</span> <span class="pl-smi">axis.default</span>, <span class="pl-v">nbin</span><span class="pl-k">=</span><span class="pl-c1">125</span>, <span class="pl-v">par.strip.text</span><span class="pl-k">=</span><span class="pl-k">list</span>(<span class="pl-v">col</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>white<span class="pl-pds">"</span></span>, <span class="pl-v">font</span><span class="pl-k">=</span><span class="pl-c1">2</span>, 
+                                                          <span class="pl-v">cex</span><span class="pl-k">=</span><span class="pl-c1">2</span>), <span class="pl-v">smooth</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)
+<span class="pl-c">### Extract the cell counts</span>
+<span class="pl-smi">a</span> <span class="pl-k">&lt;-</span> filter(<span class="pl-smi">flowData_transformed</span>, <span class="pl-smi">rGate_HNA</span>) 
+<span class="pl-smi">HNACount</span> <span class="pl-k">&lt;-</span> summary(<span class="pl-smi">a</span>);<span class="pl-smi">HNACount</span> <span class="pl-k">&lt;-</span> toTable(<span class="pl-smi">HNACount</span>)
+<span class="pl-smi">s</span> <span class="pl-k">&lt;-</span> filter(<span class="pl-smi">flowData_transformed</span>, <span class="pl-smi">polyGate1</span>)
+<span class="pl-smi">TotalCount</span> <span class="pl-k">&lt;-</span> summary(<span class="pl-smi">s</span>);<span class="pl-smi">TotalCount</span> <span class="pl-k">&lt;-</span> toTable(<span class="pl-smi">TotalCount</span>)
+
+<span class="pl-c">### Exporting cell counts to .csv file to working directory</span>
+write.csv2(<span class="pl-v">file</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>results.counts.csv<span class="pl-pds">"</span></span>,
+           <span class="pl-k">data.frame</span>(<span class="pl-v">Samples</span><span class="pl-k">=</span><span class="pl-smi">flowData_transformed</span><span class="pl-k">@</span><span class="pl-smi">phenoData</span><span class="pl-k">@</span><span class="pl-smi">data</span><span class="pl-k">$</span><span class="pl-smi">name</span>, 
+                      <span class="pl-v">Total.cells</span> <span class="pl-k">=</span> <span class="pl-smi">TotalCount</span><span class="pl-k">$</span><span class="pl-smi">true</span>,<span class="pl-v">HNA.cells</span> <span class="pl-k">=</span> <span class="pl-smi">HNACount</span><span class="pl-k">$</span><span class="pl-smi">true</span>))</pre></div>
+
+<h1></h1>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/rprops/PhenoFlow">Phenoflow</a> is maintained by <a href="https://github.com/rprops">rprops</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
