@@ -41,8 +41,10 @@ Diversity <- function(x,d=4,n=3, plot=FALSE){
     rownames(results) = attr(x,"dimnames")[[1]]
   }
     if (plot==TRUE) {
-      plot(results$D2,pch=21,bg=adjustcolor("blue",0.7),
-                        col=adjustcolor("blue",0.7),cex=1.5,las=1,ylab="Diversity",xlab="Samples")
+      p <- ggplot(results, aes(x=seq(1:nrow(results)),y=D2)) + geom_point(shape=16,size=4,alpha=0.7,colour="blue")+
+        geom_point(colour = "grey90", size = 1.5) + labs(x="Samples",y="Phenotypic diversity - D2")+
+        geom_line(colour="blue",alpha=0.4,linetype=2)
+      print(p)
     }
     return(results)
 }
@@ -195,8 +197,8 @@ beta.div.fcm <- function(x, d=3, n=3, dist="bray",k=2,iter=100,ord.type=c("NMDS"
 
 plot.beta.fcm <- function(x, color=NA,shape=NA,labels=c("Factor 1","Factor 2"),legend.pres=NULL){
   require('ggplot2')
-  if (sum(is.na(color))>1) color=rep("f1",nrow(x$points))
-  if (sum(is.na(shape))>1) shape=rep("f2",nrow(x$points))
+  if (sum(is.na(color))>=1) color=rep("f1",nrow(x$points))
+  if (sum(is.na(shape))>=1) shape=rep("f2",nrow(x$points))
   var.pcoa <- eigenvals(x)/sum(eigenvals(x))
   PcoA <- as.data.frame(x$points)
   names(PcoA)[1:2] <- c('Axis1', 'Axis2')
