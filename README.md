@@ -165,6 +165,8 @@ Optionally, you can also perform a beta diversity analysis using Non-metric Mult
 beta.div <- beta.div.fcm(fbasis,n=1,ord.type="PCoA")
 plot.beta.fcm(beta.div,legend.pres=FALSE)
 ```
+![pcoa example](https://cloud.githubusercontent.com/assets/19682548/17302990/bc8d877a-57ec-11e6-8709-4f5d5dfee679.png)
+
 <p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
 
 <p align="justify"><b>Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer.
