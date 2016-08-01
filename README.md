@@ -162,8 +162,8 @@ write.csv2(file="results.metrics.csv",
 Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) from the <code>vegan</code> package.  
 ```R
 ### Beta-diversity assessment of fingerprint
-beta.div <- beta.div.fcm(fbasis,n=1)
-plot(beta.div)
+beta.div <- beta.div.fcm(fbasis,n=1,ord.type="PCoA")
+plot.beta.fcm(beta.div,legend.pres=FALSE)
 ```
 <p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
 
