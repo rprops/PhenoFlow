@@ -148,7 +148,7 @@ Structural.organization.fbasis <- So(fbasis,d=3,n=1,plot=FALSE)
 Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
 ```
 
-Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
+Add the argument `plot=TRUE` in case a quick plot of the D<sub>2</sub> diversity values is desired.
 ![diversity example](https://cloud.githubusercontent.com/assets/19682548/17303302/17b92b4e-57ee-11e6-954a-cea341c5a152.png)
 
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  
@@ -159,7 +159,9 @@ write.csv2(file="results.metrics.csv",
                                           Structural.organization.fbasis,
                  Coef.var.fbasis))
 ```
-Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) from the <code>vegan</code> package.  
+Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) or PCoA from the <code>vegan</code> package. The <code> beta.div.fcm </code> function does the calculation and the <code> plot.beta.fcm </code> plots the ordination. Additional factorial arguments to be given to the plot function are: <code> color </code> and <code> shape </code> which can be used for visualization. The title of the legends for these factors can be specified in the <code> labels </code> argument. In case no legend has to be displayed, <code> legend.pres </code> can be put to <code> FALSE </code>.
+<p align="justify"><b> Attention: this dimension reduction utilizes the density values as opposed to the count values which are used for beta-diversity analysis in community 16S data sets</b></p>
+
 ```R
 ### Beta-diversity assessment of fingerprint
 beta.div <- beta.div.fcm(fbasis,n=1,ord.type="PCoA")
