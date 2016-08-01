@@ -159,7 +159,7 @@ write.csv2(file="results.metrics.csv",
                                           Structural.organization.fbasis,
                  Coef.var.fbasis))
 ```
-Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) or PCoA from the <code>vegan</code> package. The <code>beta.div.fcm</code> function does the calculation and the <code>plot.beta.fcm</code> plots the ordination. Additional factorial arguments to be given to the plot function are: <code>color</code> and <code>shape</code> which can be used for visualization. The title of the legends for these factors can be specified in the <code>labels</code> argument. In case no legend has to be displayed, <code>legend.pres</code> can be put to <code>FALSE</code>.
+Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) or PCoA from the <code>vegan</code> package. The <code>beta.div.fcm</code> function does the calculation (accepts all dissimilarity metrics of the <code>vegdist</code> function under the <code>dist</code> argument) and the <code>plot.beta.fcm</code> plots the ordination. Additional factorial arguments to be given to the plot function are: <code>color</code> and <code>shape</code> which can be used for visualization. The title of the legends for these factors can be specified in the <code>labels</code> argument. In case no legend has to be displayed, <code>legend.pres</code> can be put to <code>FALSE</code>.
 <p align="justify"><b> Attention: this dimension reduction utilizes the density values as opposed to the count values which are used for beta-diversity analysis in community 16S data sets</b></p>
 
 ```R
