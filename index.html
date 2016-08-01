@@ -183,7 +183,7 @@ require(<span class="pl-s"><span class="pl-pds">"</span>MESS<span class="pl-pds"
 <p>Insert the path to your data folder, for example test_data for the tutorial data.</p>
 
 <div class="highlight highlight-source-r"><pre><span class="pl-v">path</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>test_data<span class="pl-pds">"</span></span>
-<span class="pl-smi">flowData</span> <span class="pl-k">&lt;-</span> read.flowSet(<span class="pl-v">path</span> <span class="pl-k">=</span> <span class="pl-smi">test_data</span>, <span class="pl-v">transformation</span> <span class="pl-k">=</span> <span class="pl-c1">FALSE</span>, <span class="pl-v">pattern</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>.fcs<span class="pl-pds">"</span></span>)</pre></div>
+<span class="pl-smi">flowData</span> <span class="pl-k">&lt;-</span> read.flowSet(<span class="pl-v">path</span> <span class="pl-k">=</span> <span class="pl-smi">path</span>, <span class="pl-v">transformation</span> <span class="pl-k">=</span> <span class="pl-c1">FALSE</span>, <span class="pl-v">pattern</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>.fcs<span class="pl-pds">"</span></span>)</pre></div>
 
 <p align="justify">At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called <code>flowData_transformed</code>. Due to filtering of relevant parameters, we also reduce the data size of the <code>flowSet</code>. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of RAM.</p>
 
@@ -244,8 +244,8 @@ When the optimal gate has been chosen, the data can be denoised using the <code>
 <span class="pl-smi">Structural.organization.fbasis</span> <span class="pl-k">&lt;-</span> So(<span class="pl-smi">fbasis</span>,<span class="pl-v">d</span><span class="pl-k">=</span><span class="pl-c1">3</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>,<span class="pl-v">plot</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)
 <span class="pl-smi">Coef.var.fbasis</span> <span class="pl-k">&lt;-</span> CV(<span class="pl-smi">fbasis</span>,<span class="pl-v">d</span><span class="pl-k">=</span><span class="pl-c1">3</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>,<span class="pl-v">plot</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)</pre></div>
 
-<p>Add the argument <code>plot=TRUE</code> in case a quick plot of the diversity values is desired.
-<img src="https://cloud.githubusercontent.com/assets/19682548/16420401/7b83132c-3d51-11e6-87e3-875d3e2561af.png" alt="plot illustration"></p>
+<p>Add the argument <code>plot=TRUE</code> in case a quick plot of the D<sub>2</sub> diversity values is desired.
+<img src="https://cloud.githubusercontent.com/assets/19682548/17303302/17b92b4e-57ee-11e6-954a-cea341c5a152.png" alt="diversity example"></p>
 
 <p>Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  </p>
 
@@ -255,11 +255,15 @@ write.csv2(<span class="pl-v">file</span><span class="pl-k">=</span><span class=
                                           <span class="pl-smi">Structural.organization.fbasis</span>,
                  <span class="pl-smi">Coef.var.fbasis</span>))</pre></div>
 
-<p>Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) from the <code>vegan</code> package.  </p>
+<p>Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) or PCoA from the <code>vegan</code> package. The <code>beta.div.fcm</code> function does the calculation and the <code>plot.beta.fcm</code> plots the ordination. Additional factorial arguments to be given to the plot function are: <code>color</code> and <code>shape</code> which can be used for visualization. The title of the legends for these factors can be specified in the <code>labels</code> argument. In case no legend has to be displayed, <code>legend.pres</code> can be put to <code>FALSE</code>.</p>
+
+<p align="justify"><b> Attention: this dimension reduction utilizes the density values as opposed to the count values which are used for beta-diversity analysis in community 16S data sets</b></p>
 
 <div class="highlight highlight-source-r"><pre><span class="pl-c">### Beta-diversity assessment of fingerprint</span>
-<span class="pl-smi">beta.div</span> <span class="pl-k">&lt;-</span> beta.div.fcm(<span class="pl-smi">fbasis</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>)
-plot(<span class="pl-smi">beta.div</span>)</pre></div>
+<span class="pl-smi">beta.div</span> <span class="pl-k">&lt;-</span> beta.div.fcm(<span class="pl-smi">fbasis</span>,<span class="pl-v">n</span><span class="pl-k">=</span><span class="pl-c1">1</span>,<span class="pl-v">ord.type</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>PCoA<span class="pl-pds">"</span></span>)
+plot.beta.fcm(<span class="pl-smi">beta.div</span>,<span class="pl-v">legend.pres</span><span class="pl-k">=</span><span class="pl-c1">FALSE</span>)</pre></div>
+
+<p><img src="https://cloud.githubusercontent.com/assets/19682548/17302990/bc8d877a-57ec-11e6-8709-4f5d5dfee679.png" alt="pcoa example"></p>
 
 <p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
 
