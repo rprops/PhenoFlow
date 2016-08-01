@@ -1,4 +1,4 @@
-#PhenoFlow _(v1.0)_
+#PhenoFlow _(v1.1)_
 ##Phenotypic alpha-diversity and beta-diversity parameters for flow cytometry data of microbial communities
 ===============
 - **Authors**: Ruben Props [Ruben.Props@UGent.be], Pieter Monsieurs, Mohamed Mysara, Lieven Clement, Nico Boon
@@ -43,7 +43,7 @@ Evenness | Calculation of pareto evenness (Wittebolle L. et al. (2009)) from fin
 cum_Richness | Used in Evenness function for calculating cumulative density functions
 So | Calculation of Structural Organization parameter (Koch et al. (2014), Frontiers in Microbiology)
 CV | Calculation of Coefficient of Variation (CV) of the fingerprint object
-beta.diversity.fcm | Non-metric Multidimensional Scaling (NMDS) of the phenotypic fingerprint
+beta.diversity.fcm | Non-metric Multidimensional Scaling (NMDS) or PCoA of the phenotypic fingerprints
 dist.fcm | Calculating distance matrix between fingerprints
 time.discretization | Function for subsetting .fcs files in time intervals and exporting them as new .fcs files. Designed for the analysis of on-line experiments.
 FCS.resample | Resamples sample files from flowSet object to an equal number of cells. Standard is to the minimum sample size.
@@ -82,7 +82,7 @@ set.seed(777)
 Insert the path to your data folder, for example test_data for the tutorial data.
 ```R
 path = "test_data"
-flowData <- read.flowSet(path = test_data, transformation = FALSE, pattern=".fcs")
+flowData <- read.flowSet(path = path, transformation = FALSE, pattern=".fcs")
 ```
 <p align="justify">At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called <code>flowData_transformed</code>. Due to filtering of relevant parameters, we also reduce the data size of the <code>flowSet</code>. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of RAM.</p>
 
@@ -148,8 +148,8 @@ Structural.organization.fbasis <- So(fbasis,d=3,n=1,plot=FALSE)
 Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
 ```
 
-Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
-![plot illustration](https://cloud.githubusercontent.com/assets/19682548/16420401/7b83132c-3d51-11e6-87e3-875d3e2561af.png)
+Add the argument `plot=TRUE` in case a quick plot of the D<sub>2</sub> diversity values is desired.
+![diversity example](https://cloud.githubusercontent.com/assets/19682548/17303302/17b92b4e-57ee-11e6-954a-cea341c5a152.png)
 
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  
 ```R
@@ -159,12 +159,16 @@ write.csv2(file="results.metrics.csv",
                                           Structural.organization.fbasis,
                  Coef.var.fbasis))
 ```
-Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) from the <code>vegan</code> package.  
+Optionally, you can also perform a beta diversity analysis using Non-metric Multidimensional Scaling (NMDS) or PCoA from the <code>vegan</code> package. The <code>beta.div.fcm</code> function does the calculation (accepts all dissimilarity metrics of the <code>vegdist</code> function under the <code>dist</code> argument) and the <code>plot.beta.fcm</code> plots the ordination. Additional factorial arguments to be given to the plot function are: <code>color</code> and <code>shape</code> which can be used for visualization. The title of the legends for these factors can be specified in the <code>labels</code> argument. In case no legend has to be displayed, <code>legend.pres</code> can be put to <code>FALSE</code>.
+<p align="justify"><b> Attention: this dimension reduction utilizes the density values as opposed to the count values which are used for beta-diversity analysis in community 16S data sets</b></p>
+
 ```R
 ### Beta-diversity assessment of fingerprint
-beta.div <- beta.div.fcm(fbasis,n=1)
-plot(beta.div)
+beta.div <- beta.div.fcm(fbasis,n=1,ord.type="PCoA")
+plot.beta.fcm(beta.div,legend.pres=FALSE)
 ```
+![pcoa example](https://cloud.githubusercontent.com/assets/19682548/17302990/bc8d877a-57ec-11e6-8709-4f5d5dfee679.png)
+
 <p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
 
 <p align="justify"><b>Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer.
