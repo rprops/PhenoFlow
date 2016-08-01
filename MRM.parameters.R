@@ -169,7 +169,7 @@ CV <- function(x,d=3,n=3,plot=FALSE){
 ### dist = choice of distance metric 
 ### k = number of MDS dimensions 
 ### iter = number of random starts in search of stable solution
-beta.div.fcm <- function(x, d=3, n=3, dist="bray",k=2,iter=100){
+beta.div.fcm <- function(x, d=3, n=3, dist="bray",k=2,iter=100,ord.type=c("NMDS","PCoA")){
   x <- x@basis/apply(x@basis, 1, max)
   require('vegan')
   input <- matrix(nrow=nrow(x)/n,ncol=ncol(x))
@@ -182,14 +182,33 @@ beta.div.fcm <- function(x, d=3, n=3, dist="bray",k=2,iter=100){
     }
     rownames(input) <- rownames(x)[seq(1,nrow(x),n)]
     input.dist <- vegdist(input,method=dist)
-    mds.fbasis <- metaMDS(input.dist,autotransform=FALSE, k,trymax=iter)
+    if(ord.type=="NMDS") mds.fbasis <- metaMDS(input.dist,autotransform=FALSE, k,trymax=iter)
+    else mds.fbasis <- cmdscale(input.dist, k = 2, eig = TRUE, add = TRUE)
   }
   else{
     input.dist <- vegdist(x,method=dist)
-    mds.fbasis <- metaMDS(input.dist,autotransform=FALSE, k,trymax=iter)
+    if(ord.type=="NMDS") mds.fbasis <- metaMDS(input.dist,autotransform=FALSE, k,trymax=iter)
+    else mds.fbasis <- cmdscale(input.dist, k = 2, eig = TRUE, add = TRUE)
   }
-  stressplot(mds.fbasis)
   return(mds.fbasis)
+}
+
+plot.beta.fcm <- function(x, color=NA,shape=NA,labels=c("Factor 1","Factor 2"),legend.pres=NULL){
+  require('ggplot2')
+  if (sum(is.na(color))>1) color=rep("f1",nrow(x$points))
+  if (sum(is.na(shape))>1) shape=rep("f2",nrow(x$points))
+  var.pcoa <- eigenvals(x)/sum(eigenvals(x))
+  PcoA <- as.data.frame(x$points)
+  names(PcoA)[1:2] <- c('Axis1', 'Axis2')
+  PcoA <- cbind(PcoA, color, shape)
+  ggplot(PcoA, aes(x = Axis1, y = Axis2, color = color, shape= shape))+ 
+    geom_point(alpha = 0.7, size = 4) +geom_point(colour = "grey90", size = 1.5)+
+    scale_color_manual(values = c("#a65628", "red", "#ffae19",
+                                  "#4daf4a", "#1919ff", "darkorchid3", "magenta"))+
+    labs(x=paste0("Axis1 (",round(100*var.pcoa[1],1),"%)"),y=paste0("Axis2 (",round(100*var.pcoa[2],1),"%)"))+
+    ggtitle("PCoA of phenotypic fingerprints")+
+    labs(color=labels[1],shape=labels[2])+
+    guides(color=legend.pres, shape=legend.pres)
 }
 
 dist.fcm <- function(x, d=3, n=3, dist="bray"){
