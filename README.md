@@ -149,7 +149,7 @@ Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
 ```
 
 Add the argument `plot=TRUE` in case a quick plot of the diversity values is desired.
-![plot illustration](https://cloud.githubusercontent.com/assets/19682548/16420401/7b83132c-3d51-11e6-87e3-875d3e2561af.png)
+![diversity example](https://cloud.githubusercontent.com/assets/19682548/17303302/17b92b4e-57ee-11e6-954a-cea341c5a152.png)
 
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  
 ```R
