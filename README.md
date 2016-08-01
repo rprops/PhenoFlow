@@ -82,7 +82,7 @@ set.seed(777)
 Insert the path to your data folder, for example test_data for the tutorial data.
 ```R
 path = "test_data"
-flowData <- read.flowSet(path = test_data, transformation = FALSE, pattern=".fcs")
+flowData <- read.flowSet(path = path, transformation = FALSE, pattern=".fcs")
 ```
 <p align="justify">At this point we select the phenotypic features of interest and transform their intensity values according to the hyperbolic arcsin. In this case we chose two fluorescent parameters and two scatter parameters in their height format (-H). Depending on the FCM, the resolution may increase by using the area values (-A) since many detectors have a higher signal resolution for area values. For transparency we store the transformed data in a new object, called <code>flowData_transformed</code>. Due to filtering of relevant parameters, we also reduce the data size of the <code>flowSet</code>. This becomes relevant for larger datasets. For example, a dataset of 200 samples of an average of 25 000 cells will require 200 - 300 MB of RAM.</p>
 
