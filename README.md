@@ -43,7 +43,7 @@ Evenness | Calculation of pareto evenness (Wittebolle L. et al. (2009)) from fin
 cum_Richness | Used in Evenness function for calculating cumulative density functions
 So | Calculation of Structural Organization parameter (Koch et al. (2014), Frontiers in Microbiology)
 CV | Calculation of Coefficient of Variation (CV) of the fingerprint object
-beta.diversity.fcm | Non-metric Multidimensional Scaling (NMDS) of the phenotypic fingerprint
+beta.diversity.fcm | Non-metric Multidimensional Scaling (NMDS) or PCoA of the phenotypic fingerprints
 dist.fcm | Calculating distance matrix between fingerprints
 time.discretization | Function for subsetting .fcs files in time intervals and exporting them as new .fcs files. Designed for the analysis of on-line experiments.
 FCS.resample | Resamples sample files from flowSet object to an equal number of cells. Standard is to the minimum sample size.
