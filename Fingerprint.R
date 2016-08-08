@@ -29,7 +29,7 @@ remove(flowData)
 
 ### Create a PolygonGate for extracting the single-cell information
 ### Input coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
-sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
+sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3),ncol=2, nrow=4)
 colnames(sqrcut1) <- c("FL1-H","FL3-H")
 polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
 
