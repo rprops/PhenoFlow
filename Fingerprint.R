@@ -46,7 +46,7 @@ flowData_transformed <- Subset(flowData_transformed, polyGate1)
 ### Normalize data between [0,1] on average, 
 ### this is required for using the bw=0.01 in the fingerprint calculation
 summary <- fsApply(x=flowData_transformed,FUN=function(x) apply(x,2,max),use.exprs=TRUE)
-max = mean(summary[,1])
+max = max(summary[,1])
 mytrans <- function(x) x/max
 flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FL3-H`=mytrans(`FL3-H`), 
