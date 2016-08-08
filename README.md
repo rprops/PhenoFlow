@@ -118,11 +118,11 @@ When the optimal gate has been chosen, the data can be denoised using the `Subse
 ### Isolate only the cellular information based on the polyGate1
 flowData_transformed <- Subset(flowData_transformed, polyGate1)
 ```
-<p align="justify">Next, the phenotypic intensity values of each cell are normalized to the [0,1] range. This is required for using a bandwidth of 0.01 in the fingerprint calculation. Each parameter is normalized based on the average maximum FL1-H intensity value over the data set.</p>
+<p align="justify">Next, the phenotypic intensity values of each cell are normalized to the [0,1] range. This is required for using a bandwidth of 0.01 in the fingerprint calculation. Each parameter is normalized based on the maximum FL1-H intensity value over the data set.</p>
 
 ```R
 summary <- fsApply(x=flowData_transformed,FUN=function(x) apply(x,2,max),use.exprs=TRUE)
-max = mean(summary[,1])
+max = max(summary[,1])
 mytrans <- function(x) x/max
 flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FL3-H`=mytrans(`FL3-H`), 
