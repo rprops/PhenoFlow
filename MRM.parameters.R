@@ -212,7 +212,7 @@ plot.beta.fcm <- function(x, color=NA,shape=NA,labels=c("Factor 1","Factor 2"),l
     scale_color_manual(values = c("#a65628", "red", "#ffae19",
                                   "#4daf4a", "#1919ff", "darkorchid3", "magenta"))+
     labs(x=paste0("Axis1 (",round(100*var.pcoa[1],1),"%)"),y=paste0("Axis2 (",round(100*var.pcoa[2],1),"%)"))+
-    ggtitle("PCoA of phenotypic fingerprints")+
+    ggtitle("Ordination of phenotypic fingerprints")+
     labs(color=labels[1],shape=labels[2])+
     guides(color=legend.pres, shape=legend.ops)
 }
