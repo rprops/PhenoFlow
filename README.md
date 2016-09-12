@@ -71,7 +71,7 @@ Full tutorial data is available at: https://flowrepository.org/id/RvFr3eLf9W5MNL
 # How to use the scripts
 
 ## Load the packages and source code
-Open RStudio and the two scripts. Make sure that your working directory is located where these scripts are saved.
+Open RStudio. Make sure that your working directory is located where the scripts are saved.
 ```R
 require('flowFDA')
 require("vegan")
