@@ -28,6 +28,12 @@ biocLite("flowViz")
 ```
 <p align="justify">Next, install the flowFDA package from https://github.com/lievenclement/flowFDA. Or, alternatively download the package from this repository and unzip it directly into the R library folder.</p>
 
+```R
+library(devtools)
+install_github("lievenclement/flowFDAExampleData")
+install_github("lievenclement/flowFDA", build_vignettes=TRUE)
+```
+
 ## Scripts and functions
 Script  | Content
 ------------| -----------
