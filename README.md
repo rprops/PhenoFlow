@@ -35,6 +35,10 @@ install_github("lievenclement/flowFDAExampleData")
 install_github("lievenclement/flowFDA", build_vignettes=TRUE)
 ```
 
+Also install the folowing packages for easy count histogram plots:
+```R
+install_github("easyGgplot2", "kassambara")
+```
 ## Scripts and functions
 Script  | Content
 ------------| -----------
