@@ -304,6 +304,14 @@ trip_col <- function(x,n=3){
 ################################################################################
 
 FCS.resample <- function(x, sample=0,replace=FALSE){
+  library(easyGgplot2)
+  library(devtools)
+  sample_distr <- data.frame(counts=fsApply(flowData_transformed,FUN=function(x) nrow(x),use.exprs=TRUE))
+  ggplot2.histogram(data=sample_distr , xName='counts',
+                    fill="white", color="black",
+                    linetype="longdash",binwidth=nrow(sample_distr),addMeanLine=TRUE, meanLineColor="red",
+                    meanLineType="dashed", meanLineSize=1)+
+    theme_bw() + labs(y="Frequency", title="Original count distribution")
   ## Remove all .fcs files with 0 observations
   x <- x[fsApply(x=x,FUN=function(x) nrow(x),use.exprs=TRUE)!=0]
   if(sample==0) sample <- min(fsApply(x=x,FUN=function(x) nrow(x),use.exprs=TRUE))
