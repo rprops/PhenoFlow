@@ -1,7 +1,7 @@
 require("vegan")
 require("MESS")
 require("flowFDA")
-
+require("gridExtra")
 ### Diversity from FCM data (Hill numbers D0, D1 and D2)
 ### x = flowBasis object from fingerprint (e.g., fingerprint)
 ### d = threshold for denoising
