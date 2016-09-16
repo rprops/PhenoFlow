@@ -306,7 +306,7 @@ trip_col <- function(x,n=3){
 FCS.resample <- function(x, sample=0,replace=FALSE){
   library(easyGgplot2)
   library(devtools)
-  sample_distr <- data.frame(counts=fsApply(flowData_transformed,FUN=function(x) nrow(x),use.exprs=TRUE))
+  sample_distr <- data.frame(counts=fsApply(x,FUN=function(x) nrow(x),use.exprs=TRUE))
   ggplot2.histogram(data=sample_distr , xName='counts',
                     fill="white", color="black",
                     linetype="longdash",binwidth=nrow(sample_distr),addMeanLine=TRUE, meanLineColor="red",
