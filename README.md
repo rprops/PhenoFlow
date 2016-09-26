@@ -152,6 +152,11 @@ flowData_transformed <- FCS.resample(flowData_transformed)
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
 ```
+![sample_sizes](https://cloud.githubusercontent.com/assets/19682548/18840745/9df697d0-83dd-11e6-8aec-2e74aa433501.png)
+```R
+Your samples were randomly subsampled to 9143 cells
+```
+
 <p align="justify">From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of technical replicates, <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
