@@ -309,7 +309,7 @@ FCS.resample <- function(x, sample=0, replace=FALSE){
   sample_distr <- data.frame(counts=fsApply(x,FUN=function(x) nrow(x),use.exprs=TRUE))
   p1 <- ggplot2.histogram(data=sample_distr , xName='counts',
                     fill="white", color="black",
-                    linetype="longdash",binwidth=nrow(sample_distr),addMeanLine=TRUE, meanLineColor="red",
+                    linetype="longdash",addMeanLine=TRUE, meanLineColor="red",
                     meanLineType="dashed", meanLineSize=1)+
     theme_bw() + labs(y="Frequency", title="Original count distribution")
   if(sample==0) sample <- min(fsApply(x=x,FUN=function(x) nrow(x),use.exprs=TRUE))
@@ -318,13 +318,8 @@ FCS.resample <- function(x, sample=0, replace=FALSE){
   for(i in 1:length(x)){
     exprs(x[[i]]) <- exprs(x[[i]])[sample(1:nrow(exprs(x[[i]])), sample, replace=replace),]
   }
-  sample_distr <- data.frame(counts=fsApply(x,FUN=function(x) nrow(x),use.exprs=TRUE))
-  p2 <- ggplot2.histogram(data=sample_distr , xName='counts',
-                          fill="white", color="black",
-                          linetype="longdash",binwidth=nrow(sample_distr),addMeanLine=TRUE, meanLineColor="red",
-                          meanLineType="dashed", meanLineSize=1)+
-    theme_bw() + labs(y="Frequency", title="New count distribution")
-  grid.arrange(p1,p2,ncol=2)
+  print(p1)
+  cat(paste0("Your samples were randomly subsampled to ",sample," cells"))
   return (x)
 }
 
