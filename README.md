@@ -189,6 +189,11 @@ For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted acco
 ### Creating a rectangle gate for counting HNA and LNA cells
 rGate_HNA <- rectangleGate("FL1-H"=c(asinh(20000), 20)/max,"FL3-H"=c(0,20)/max, 
                            filterId = "HNA bacteria")
+### Normalize total cell gate
+sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
+colnames(sqrcut1) <- c("FL1-H","FL3-H")
+polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
+
 ### Check if rectangle gate is correct, if not, adjust rGate_HNA
 xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=rGate_HNA,
        scales=list(y=list(limits=c(0,1)),
