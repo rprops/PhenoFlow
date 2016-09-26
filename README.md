@@ -142,8 +142,12 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
 ```
 
-<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time. The most determining factor for getting an accurate kernel density estimation is the number of cells counted in <code>polyGate1</code>. In general, 1,000 cells will give a good estimation of the mean alpha-diversity (D<sub>2</sub>) but in order to reduce the variance on this estimate I would reccomend a cell count of 10,000 cells or more.</p>
+<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time. The most determining factor for getting an accurate kernel density estimation is the number of cells counted in <code>polyGate1</code>. In general, 1,000 cells will give a good estimation of the mean alpha-diversity (D<sub>2</sub>) but in order to reduce the variance on this estimate I would reccomend a cell count of 10,000 cells or more. 
+
+If desired, you can randomly resample your samples to the lowest sample size or any user specified sample size using the <code>FCS.resample()</code> function. Samples with a sample size that is equal to 0 or that is lower than the specified size will be discarded. </p>
 ```R
+### Randomly resample to the lowest sample size
+flowData_transformed <- FCS.resample(flowData_transformed)
 ### Calculate fingerprint with bw = 0.01
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
