@@ -90,7 +90,7 @@ Set a fixed seed to ensure reproducible analysis
 ```R
 set.seed(777)
 ```
-## Data analysis
+## Data analysis (to run the following code in batch: fingerprint.R script)
 Insert the path to your data folder, for example test_data for the tutorial data.
 ```R
 path = "test_data"
