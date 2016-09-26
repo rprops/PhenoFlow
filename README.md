@@ -90,7 +90,7 @@ Set a fixed seed to ensure reproducible analysis
 ```R
 set.seed(777)
 ```
-## Data analysis
+## Data analysis (to run the following code in batch: fingerprint.R script)
 Insert the path to your data folder, for example test_data for the tutorial data.
 ```R
 path = "test_data"
@@ -142,13 +142,22 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
 ```
 
-<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time. The most determining factor for getting an accurate kernel density estimation is the number of cells counted in <code>polyGate1</code>. In general, 1,000 cells will give a good estimation of the mean alpha-diversity (D<sub>2</sub>) but in order to reduce the variance on this estimate I would reccomend a cell count of 10,000 cells or more.</p>
+<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time. The most determining factor for getting an accurate kernel density estimation is the number of cells counted in <code>polyGate1</code>. In general, 1,000 cells will give a good estimation of the mean alpha-diversity (D<sub>2</sub>) but in order to reduce the variance on this estimate I would reccomend a cell count of 10,000 cells or more. 
+
+If desired, you can randomly resample your samples to the lowest sample size or any user specified sample size using the <code>FCS.resample()</code> function. Samples with a sample size that is equal to 0 or that is lower than the specified size will be discarded. </p>
 ```R
+### Randomly resample to the lowest sample size
+flowData_transformed <- FCS.resample(flowData_transformed)
 ### Calculate fingerprint with bw = 0.01
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
 ```
-<p align="justify">From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of technical replicates, <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
+![sample_sizes](https://cloud.githubusercontent.com/assets/19682548/18840745/9df697d0-83dd-11e6-8aec-2e74aa433501.png)
+```R
+Your samples were randomly subsampled to 9143 cells
+```
+
+<p align="justify">In this case we will continue with the samples without randomly subsampling. From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of technical replicates, <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
 ### Densities will be normalized to the interval [0,1]
@@ -181,7 +190,7 @@ plot.beta.fcm(beta.div,legend.pres=FALSE)
 ```
 ![pcoa example](https://cloud.githubusercontent.com/assets/19682548/17302990/bc8d877a-57ec-11e6-8709-4f5d5dfee679.png)
 
-<p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>.</p>
+<p align="justify">It is often also useful to know the exact cell densities of your sample. This is performed by the following code. Additionally it quantifies the amount of High Nucleic Acid (HNA) and Low Nucleic Acid (LNA) bacteria as defined by <a href="http://www.sciencedirect.com/science/article/pii/S0043135413008361">Prest et al. (2013)</a>. Be aware that the <code>filter</code> function has conflicts with the filter function from the <code>dplyr</code> package.</p>
 
 <p align="justify"><b>Warning: the HNA/LNA partition is only valid for data gathered on a BD C6 Accuri flow cytometer.
 For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted according to the appropriate reference samples.</b></p>
@@ -189,6 +198,11 @@ For other flow cytometers the threshold (FL1-H = 20 000) should be adjusted acco
 ### Creating a rectangle gate for counting HNA and LNA cells
 rGate_HNA <- rectangleGate("FL1-H"=c(asinh(20000), 20)/max,"FL3-H"=c(0,20)/max, 
                            filterId = "HNA bacteria")
+### Normalize total cell gate
+sqrcut1 <- matrix(c(8.75,8.75,14,14,3,7.5,14,3)/max,ncol=2, nrow=4)
+colnames(sqrcut1) <- c("FL1-H","FL3-H")
+polyGate1 <- polygonGate(.gate=sqrcut1, filterId = "Total Cells")
+
 ### Check if rectangle gate is correct, if not, adjust rGate_HNA
 xyplot(`FL3-H` ~ `FL1-H`, data=flowData_transformed[1], filter=rGate_HNA,
        scales=list(y=list(limits=c(0,1)),
