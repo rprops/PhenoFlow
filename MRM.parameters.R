@@ -41,6 +41,7 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
         geom_errorbar(aes(ymin=D2-sd.D2,ymax=D2+sd.D2), width=0.25)
       print(p)
     }
+    cat(paste0("Alpha diversity metrics (D1,D2) have been computed after ",R," bootstraps"))
     return(results)
 }
 
@@ -49,7 +50,7 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
 ### d = threshold for denoising
 ### The higher the evenness the higher the value
 ### n = number of replicates
-Evenness <- function(x,d=3,n=3,plot=FALSE){
+Evenness <- function(x,d=3,n=1,plot=FALSE){
   x<- x@basis/apply(x@basis, 1, max)
   require(MESS)
   AUC = as.numeric(matrix(nrow= length(x[,1]), ncol=1))
@@ -100,7 +101,7 @@ cum_Richness <- function(x, d=3){
 ### x = flowBasis object from fingerprint (e.g., fingerprint)
 ### d = threshold for denoising
 ### n = number of replicates
-So <- function(x,d=3,n=3,plot=FALSE){
+So <- function(x,d=3,n=1,plot=FALSE){
   x<- x@basis/apply(x@basis, 1, max)
   So = apply(x,1,FUN=function(x){
     x = round(x,d);x<-x[x!=0];sum(abs(x-mean(x)))/(length(x))
@@ -131,7 +132,7 @@ So <- function(x,d=3,n=3,plot=FALSE){
 ### x = flowBasis object from fingerprint (e.g., fingerprint)
 ### d = threshold for denoising
 ### n = number of replicates
-CV <- function(x,d=3,n=3,plot=FALSE){
+CV <- function(x,d=3,n=1,plot=FALSE){
   x <- x@basis/apply(x@basis, 1, max)
   CV= as.numeric(matrix(nrow=length(x[,1]), ncol=1))
   for(i in 1:length(x[,1])){
@@ -166,7 +167,7 @@ CV <- function(x,d=3,n=3,plot=FALSE){
 ### dist = choice of distance metric 
 ### k = number of MDS dimensions 
 ### iter = number of random starts in search of stable solution
-beta.div.fcm <- function(x, d=3, n=3, dist="bray",k=2,iter=100,ord.type=c("NMDS","PCoA")){
+beta.div.fcm <- function(x, d=3, n=1, dist="bray",k=2,iter=100,ord.type=c("NMDS","PCoA")){
   x <- x@basis/apply(x@basis, 1, max)
   require('vegan')
   input <- matrix(nrow=nrow(x)/n,ncol=ncol(x))

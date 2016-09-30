@@ -51,7 +51,7 @@ fbasis <- flowBasis(flowData_transformed, param, nbin=128,
 ### Densities will be normalized to the interval [0,1]
 ### n = number of replicates
 ### d = rounding factor
-Diversity.fbasis <- Diversity(fbasis,d=3,plot=FALSE)
+Diversity.fbasis <- Diversity(fbasis,d=3,plot=FALSE, R=999)
 Evenness.fbasis <- Evenness(fbasis,d=3,plot=FALSE)
 Structural.organization.fbasis <- So(fbasis,d=3,plot=FALSE)
 Coef.var.fbasis <- CV(fbasis,d=3,plot=FALSE)
