@@ -5,7 +5,7 @@
 
 Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
 
-<p align="justify">The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S amplicon data sets. </p>
+<p align="justify">The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S rRNA gene amplicon data sets. </p>
 ![alt text][logo]
 [logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation_low_res.gif "Figure 1"
 
@@ -107,7 +107,7 @@ param=c("FL1-H", "FL3-H","SSC-H","FSC-H")
 flowData_transformed = flowData_transformed[,param]
 remove(flowData)
 ```
-<p align="justify">Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the <code>FL1-H</code> and <code>FL3-H</code> parameters. For this example, an initial polygon gate (<code>polyGate1</code>) is created and adjusted based on the sample type in question. For each specific experiment, it is advised to use identical gating for each sample. The gating strategy is evaluated on the <code>xyplot</code> and adjusted if necessary. A more detailed guideline for gating or denoising aqueous microbial samples can be found <a href="http://jornades.uab.cat/workshopmrama/sites/jornades.uab.cat.workshopmrama/files/Assessing_water_quality_with_the_BD_Accuri_C6_flow_cytometer.pdf">here</a> (p.6):</p>
+<p align="justify">Now that the data has been formatted, we need to discard all the signals detected by the FCM which correspond to instrument noise and (in)organic background. This is done by selecting the cells in a scatterplot on the primary fluorescence or scatter signals. For SYBR Green I, this is done based on the <code>FL1-H</code> and <code>FL3-H</code> parameters. For this example, an initial polygon gate (<code>polyGate1</code>) is created and adjusted based on the sample type in question. For each specific experiment, it is advised to use identical gating for each sample. The gating strategy is evaluated on the <code>xyplot</code> and adjusted if necessary. A more detailed guideline for gating or denoising aquatic microbial samples can be found <a href="http://jornades.uab.cat/workshopmrama/sites/jornades.uab.cat.workshopmrama/files/Assessing_water_quality_with_the_BD_Accuri_C6_flow_cytometer.pdf">here</a> (p.6):</p>
 ```R
 ### Create a PolygonGate for denoising the dataset
 ### Define coordinates for gate in sqrcut1 in format: c(x,x,x,x,y,y,y,y)
@@ -142,12 +142,12 @@ flowData_transformed <- transform(flowData_transformed,`FL1-H`=mytrans(`FL1-H`),
                                   `FSC-H`=mytrans(`FSC-H`))
 ```
 
-<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time. The most determining factor for getting an accurate kernel density estimation is the number of cells counted in <code>polyGate1</code>. In general, 1,000 cells will give a good estimation of the mean alpha-diversity (D<sub>2</sub>) but in order to reduce the variance on this estimate I would reccomend a cell count of 10,000 cells or more. 
+<p align="justify">The denoised data can now be used for calculating the phenotypic fingerprint using the <code>flowBasis</code> function. Changing <code>nbin</code> increases the grid resolution of the density estimation but also steeply increases the computation time. The most determining factor for getting an accurate kernel density estimation is the number of cells counted in <code>polyGate1</code>. In general, 1,000 cells will give a good estimation of the mean alpha-diversity (D<sub>2</sub>) but in order to reduce the variance on this estimate I would recommend a cell count of 10,000 cells or more. 
 
-If desired, you can randomly resample your samples to the lowest sample size or any user specified sample size using the <code>FCS.resample()</code> function. Samples with a sample size that is equal to 0 or that is lower than the specified size will be discarded. </p>
+If desired, you can randomly resample your samples to the lowest sample size or any user specified sample size using the <code>FCS.resample()</code> function (standard without replacement, but can adjust by changing <code>replace</code>). Samples with a sample size that is equal to 0 or that is lower than the specified size will be discarded. </p>
 ```R
 ### Randomly resample to the lowest sample size
-flowData_transformed <- FCS.resample(flowData_transformed)
+flowData_transformed <- FCS.resample(flowData_transformed, replace=FALSE)
 ### Calculate fingerprint with bw = 0.01
 fbasis <- flowBasis(flowData_transformed, param, nbin=128, 
                    bw=0.01,normalize=function(x) x)
