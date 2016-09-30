@@ -5,7 +5,7 @@
 
 Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
 
-<p align="justify">The goal of this method is to translate (longitudinal) flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S rRNA gene amplicon data sets. </p>
+<p align="justify">The goal of this method is to translate flow cytometry data, into diversity estimates of microbial communities, such as depicted below (data available at <a href="http://datadryad.org/resource/doi:10.5061/dryad.m1c04"> doi:10.5061/dryad.m1c04 </a>), which can be compared with 16S rRNA gene amplicon data sets. </p>
 ![alt text][logo]
 [logo]: https://github.com/rprops/PhenoFlow/blob/master/Animation_low_res.gif "Figure 1"
 
@@ -22,6 +22,7 @@ install.packages("lattice")
 install.packages("survival")
 install.packages("TH.data")
 install.packages("gridExtra")
+install.packages("boot")
 source("https://bioconductor.org/biocLite.R")
 biocLite("flowCore")
 source("https://bioconductor.org/biocLite.R")
@@ -171,6 +172,13 @@ Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
 
 Add the argument `plot=TRUE` in case a quick plot of the D<sub>2</sub> diversity values with their errors is desired.
 ![diversity example](https://cloud.githubusercontent.com/assets/19682548/19001897/79fecb44-8717-11e6-9905-c683acd757aa.png)
+
+```R
+Alpha diversity metrics (D1,D2) have been computed after 999 bootstraps
+```
+
+Typically for FCM data, the bootstrap replication results in an approximate normal distribution:
+![distribution_bootstraps](https://cloud.githubusercontent.com/assets/19682548/19002031/212cb5b6-8718-11e6-92a8-1a82475820d7.png)
 
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  
 ```R
