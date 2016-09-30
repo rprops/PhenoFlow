@@ -172,6 +172,13 @@ Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
 Add the argument `plot=TRUE` in case a quick plot of the D<sub>2</sub> diversity values with their errors is desired.
 ![diversity example](https://cloud.githubusercontent.com/assets/19682548/19001897/79fecb44-8717-11e6-9905-c683acd757aa.png)
 
+```R
+Alpha diversity metrics (D1,D2) have been computed after 999 bootstraps
+```
+
+Typically for FCM data, the bootstrap distribution is approximately normal distributed:
+
+
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  
 ```R
 ### Export ecological data to .csv file in the chosen directory
