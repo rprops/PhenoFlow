@@ -176,8 +176,8 @@ Add the argument `plot=TRUE` in case a quick plot of the D<sub>2</sub> diversity
 Alpha diversity metrics (D1,D2) have been computed after 999 bootstraps
 ```
 
-Typically for FCM data, the bootstrap distribution is approximately normal distributed:
-
+Typically for FCM data, the bootstrap replication results in an approximate normal distribution:
+![distribution_bootstraps](https://cloud.githubusercontent.com/assets/19682548/19002031/212cb5b6-8718-11e6-92a8-1a82475820d7.png)
 
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  
 ```R
