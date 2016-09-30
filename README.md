@@ -157,13 +157,13 @@ fbasis <- flowBasis(flowData_transformed, param, nbin=128,
 Your samples were randomly subsampled to 9143 cells
 ```
 
-<p align="justify">In this case we will continue with the samples without randomly subsampling. From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of technical replicates, <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
+<p align="justify">In this case we will continue with the samples without randomly subsampling. From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of technical replicates. Bootstrapping has been implemented for the Diversity function, so erorrs are calculated for each sample separately.  <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
 ### Densities will be normalized to the interval [0,1]
 ### n = number of replicates
 ### d = rounding factor
-Diversity.fbasis <- Diversity(fbasis,d=3,n=1,plot=FALSE)
+Diversity.fbasis <- Diversity(fbasis,d=3,plot=FALSE)
 Evenness.fbasis <- Evenness(fbasis,d=3,n=1,plot=FALSE)
 Structural.organization.fbasis <- So(fbasis,d=3,n=1,plot=FALSE)
 Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
