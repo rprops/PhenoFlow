@@ -157,19 +157,19 @@ fbasis <- flowBasis(flowData_transformed, param, nbin=128,
 Your samples were randomly subsampled to 9143 cells
 ```
 
-<p align="justify">In this case we will continue with the samples without randomly subsampling. From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of technical replicates. Bootstrapping has been implemented for the Diversity function, so erorrs are calculated for each sample separately.  <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
+<p align="justify">In this case we will continue with the samples without randomly subsampling. From the phenotypic fingerprint, alpha diversity metrics can be calculated. <code>n</code> is the number of technical replicates. Bootstrapping has been implemented for the Diversity function, so erorrs are calculated for each sample separately.  <code>R</code> is the number of bootstraps.  <code>d</code> is a rounding factor which is used to eliminate unstable density values from the dataset. Different rounding factors usually only scale the diversity estimates by a fixed factor and do not affect temporal trends or comparative analysis.</p>
 ```R
 ### Calculate ecological parameters from normalized fingerprint 
 ### Densities will be normalized to the interval [0,1]
 ### n = number of replicates
 ### d = rounding factor
-Diversity.fbasis <- Diversity(fbasis,d=3,plot=FALSE)
+Diversity.fbasis <- Diversity(fbasis,d=3,plot=FALSE, R=999)
 Evenness.fbasis <- Evenness(fbasis,d=3,n=1,plot=FALSE)
 Structural.organization.fbasis <- So(fbasis,d=3,n=1,plot=FALSE)
 Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
 ```
 
-Add the argument `plot=TRUE` in case a quick plot of the D<sub>2</sub> diversity values is desired.
+Add the argument `plot=TRUE` in case a quick plot of the D<sub>2</sub> diversity values with their errors is desired.
 ![diversity example](https://cloud.githubusercontent.com/assets/19682548/19001897/79fecb44-8717-11e6-9905-c683acd757aa.png)
 
 Alpha diversity analysis has completed: time to export all the data to your working directory. If you are not sure where this is, type <code>getwd()</code>.  
