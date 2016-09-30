@@ -2,48 +2,43 @@ require("vegan")
 require("MESS")
 require("flowFDA")
 require("gridExtra")
+require("boot")
 ### Diversity from FCM data (Hill numbers D0, D1 and D2)
 ### x = flowBasis object from fingerprint (e.g., fingerprint)
 ### d = threshold for denoising
 ### n = number of replicates
-Diversity <- function(x,d=4,n=3, plot=FALSE){
-  x<- x@basis/apply(x@basis, 1, max)
+Diversity <- function(x, d=4, plot=FALSE, R=999){
+  require("boot")
+  D2.boot <- function(x,i) 1/sum((x[i]/sum(x[i]))^2)
+  D1.boot <- function(x,i) exp(-sum((x[i]/sum(x[i]))*log(x[i]/sum(x[i]))))
+  x <- x@basis/apply(x@basis, 1, max)
   D=matrix(ncol=3,nrow=nrow(x))
-    D[,1] = apply(x,1,FUN=function(x) {
+    ### Observed richness
+    D0 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];sum(x!=0)
     })
-    D[,2] = apply(x,1,FUN=function(x){
-      x = round(x,d);x<-x[x!=0];exp(-sum((x/sum(x))*log(x/sum(x))))
+    ### D1
+    D1 = apply(fbasis@basis,1,FUN=function(x) {
+      x = round(x,d);x<-x[x!=0];
+      boot(data=x,statistic=D1.boot,R=R)
     })
-    D[,3] = apply(x,1,FUN=function(x){
-      x = round(x,d);x<-x[x!=0];1/sum((x/sum(x))^2)
+    ### D2
+    D2 = apply(fbasis@basis,1,FUN=function(x) {
+      x = round(x,d);x<-x[x!=0];
+      boot(data=x,statistic=D2.boot,R=R)
     })
-  if(n>1){
-    D2=matrix(ncol=6,nrow=length(x[,1])/n)
-    D2[,1] = trip(D[,1],n)[,1]
-    D2[,2] = trip(D[,1],n)[,2]
-    D2[,3] = trip(D[,2],n)[,1]
-    D2[,4] = trip(D[,2],n)[,2]
-    D2[,5] = trip(D[,3],n)[,1]
-    D2[,6] = trip(D[,3],n)[,2]
-    results = data.frame(Sample_name=attr(x,"dimnames")[[1]],D2)
-    colnames(results) = c("Sample_name","D0","sd.D0","D1","sd.D1","D2",
+    results <- data.frame(Sample_name=attr(x,"dimnames")[[1]],
+                          D0, 
+                          t(data.frame(lapply(D1,FUN=function(x) c(mean(x$t),sd(x$t))))),
+                          t(data.frame(lapply(D2,FUN=function(x) c(mean(x$t),sd(x$t))))))
+    colnames(results) = c("Sample_name","D0","D1","sd.D1","D2",
                           "sd.D2")
-    rownames(results) = trip_col(attr(x,"dimnames")[[1]],n=n)
-  }
-  else{
-    D2=matrix(ncol=3,nrow=length(x[,1]))
-    D2[,1] = D[,1]
-    D2[,2] = D[,2]
-    D2[,3] = D[,3]
-    results = data.frame(Sample_name=attr(x,"dimnames")[[1]], D2)
-    colnames(results) = c("Sample_name","D0","D1","D2")
     rownames(results) = attr(x,"dimnames")[[1]]
-  }
     if (plot==TRUE) {
       p <- ggplot(results, aes(x=seq(1:nrow(results)),y=D2)) + geom_point(shape=16,size=4,alpha=0.7,colour="blue")+
         geom_point(colour = "grey90", size = 1.5) + labs(x="Samples",y="Phenotypic diversity - D2")+
-        geom_line(colour="blue",alpha=0.4,linetype=2)
+        geom_line(colour="blue",alpha=0.4,linetype=2)+
+        geom_errorbar(aes(ymin=D2-sd.D2,ymax=D2+sd.D2), width=0.25)
       print(p)
     }
     return(results)

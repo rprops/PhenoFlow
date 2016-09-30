@@ -51,10 +51,10 @@ fbasis <- flowBasis(flowData_transformed, param, nbin=128,
 ### Densities will be normalized to the interval [0,1]
 ### n = number of replicates
 ### d = rounding factor
-Diversity.fbasis <- Diversity(fbasis,d=3,n=1,plot=FALSE)
-Evenness.fbasis <- Evenness(fbasis,d=3,n=1,plot=FALSE)
-Structural.organization.fbasis <- So(fbasis,d=3,n=1,plot=FALSE)
-Coef.var.fbasis <- CV(fbasis,d=3,n=1,plot=FALSE)
+Diversity.fbasis <- Diversity(fbasis,d=3,plot=FALSE)
+Evenness.fbasis <- Evenness(fbasis,d=3,plot=FALSE)
+Structural.organization.fbasis <- So(fbasis,d=3,plot=FALSE)
+Coef.var.fbasis <- CV(fbasis,d=3,plot=FALSE)
 
 ### Export ecological data to .csv file in the chosen directory
 write.csv2(file="results.metrics.csv",
