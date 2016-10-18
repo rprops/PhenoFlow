@@ -18,12 +18,12 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
       x = round(x,d);x<-x[x!=0];sum(x!=0)
     })
     ### D1
-    D1 = apply(fbasis@basis,1,FUN=function(x) {
+    D1 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];
       boot(data=x,statistic=D1.boot,R=R)
     })
     ### D2
-    D2 = apply(fbasis@basis,1,FUN=function(x) {
+    D2 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];
       boot(data=x,statistic=D2.boot,R=R)
     })
