@@ -322,6 +322,7 @@ FCS.resample <- function(x, sample=0, replace=FALSE){
 ### Function for calculating Diversity from 16S datasets (phyloseq objects)
 ### Input = dataframe/matrix or phyloseq object -> this means rows = samples and columns = species
 ### D0 = observed richness
+### Still needs validation!
 ################################################################################
 
 Diversity.16S <- function(x,percent=FALSE,R=999){
