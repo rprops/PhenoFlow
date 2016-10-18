@@ -336,12 +336,10 @@ Diversity.16S <- function(x,percent=FALSE,R=999){
     })
     ### D1
     D1 = apply(x,1,FUN=function(x) {
-      x<-x[x!=0];
       boot(data=x,statistic=D1.boot,R=R)
     })
     ### D2
     D2 = apply(x,1,FUN=function(x) {
-      x<-x[x!=0];
       boot(data=x,statistic=D2.boot,R=R)
     })
     
