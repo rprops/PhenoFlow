@@ -12,8 +12,8 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
   D2.boot <- function(x,i) 1/sum((x[i]/sum(x[i]))^2)
   D1.boot <- function(x,i) exp(-sum((x[i]/sum(x[i]))*log(x[i]/sum(x[i]))))
   x <- x@basis/apply(x@basis, 1, max)
-  cat("\t**Notice** this function will calculate D0, D1 and D2 with errors estimated by 
-      \tbootstrapping. Resampling is weighted according to bin density.\n")
+  cat("\t**Notice** As only frequency data is available, all bins will be resampled equally.
+      \t This is a conservative estimate of the error.\n")
   D=matrix(ncol=3,nrow=nrow(x))
     ### Observed richness
     D0 = apply(x,1,FUN=function(x) {
@@ -22,12 +22,12 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
     ### D1
     D1 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];
-      boot(data=x, statistic=D1.boot, R=R, weights = x)
+      boot(data=x, statistic=D1.boot, R=R)
     })
     ### D2
     D2 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];
-      boot(data=x, statistic=D2.boot, R=R, weights = x)
+      boot(data=x, statistic=D2.boot, R=R)
     })
     results <- data.frame(Sample_name=attr(x,"dimnames")[[1]],
                           D0, 
@@ -44,7 +44,7 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
         theme_bw()
       print(p)
     }
-    cat(date(),paste0("\tAlpha diversity metrics (D0,D1,D2) have been computed after ",R," bootstraps"))
+    cat(date(),paste0("---- Alpha diversity metrics (D0,D1,D2) have been computed after ",R," bootstraps"))
     return(results)
 }
 
