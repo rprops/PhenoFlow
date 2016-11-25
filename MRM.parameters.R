@@ -321,4 +321,36 @@ FCS.resample <- function(x, sample=0, replace=FALSE){
   return (x)
 }
 
+################################################################################
+### Function for calculating Diversity from 16S datasets (phyloseq objects)
+### Input = dataframe/matrix or phyloseq object -> this means rows = samples and columns = species
+### D0 = observed richness
+### Still needs validation!
+################################################################################
+
+Diversity.16S <- function(x,percent=FALSE,R=999){
+  require("boot")
+  if(is(x,"phyloseq")) x=data.frame(x@otu_table)/rowSums(x@otu_table)
+  else if(percent==FALSE) x = x/rowSums(x)
+  D2.boot <- function(x,i) 1/sum((x[i]/sum(x[i]))^2)
+  D1.boot <- function(x,i) exp(-sum((x[i]/sum(x[i]))*log(x[i]/sum(x[i]))))
+    ### Observed richness
+    D0 = apply(x,1,FUN=function(x) {
+     sum(x!=0)
+    })
+    ### D1
+    D1 = apply(x,1,FUN=function(x) {
+      boot(data=x,statistic=D1.boot,R=R)
+    })
+    ### D2
+    D2 = apply(x,1,FUN=function(x) {
+      boot(data=x,statistic=D2.boot,R=R)
+    })
+    
+  results <- data.frame(D0=D0,D1=t(data.frame(lapply(D1,FUN=function(x) c(mean(x$t),sd(x$t))))),
+                        D2=t(data.frame(lapply(D2,FUN=function(x) c(mean(x$t),sd(x$t))))))
+  colnames(results) = c("D0","D1","sd.D1","D2",
+                        "sd.D2")
+  return(results)
+}
 
