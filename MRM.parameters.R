@@ -12,20 +12,22 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
   D2.boot <- function(x,i) 1/sum((x[i]/sum(x[i]))^2)
   D1.boot <- function(x,i) exp(-sum((x[i]/sum(x[i]))*log(x[i]/sum(x[i]))))
   x <- x@basis/apply(x@basis, 1, max)
+  cat("\t**Notice** this function will calculate D0, D1 and D2 with errors estimated by 
+      \tbootstrapping. Resampling is weighted according to bin density.\n")
   D=matrix(ncol=3,nrow=nrow(x))
     ### Observed richness
     D0 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];sum(x!=0)
     })
     ### D1
-    D1 = apply(fbasis@basis,1,FUN=function(x) {
+    D1 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];
-      boot(data=x,statistic=D1.boot,R=R)
+      boot(data=x, statistic=D1.boot, R=R, weights = x)
     })
     ### D2
-    D2 = apply(fbasis@basis,1,FUN=function(x) {
+    D2 = apply(x,1,FUN=function(x) {
       x = round(x,d);x<-x[x!=0];
-      boot(data=x,statistic=D2.boot,R=R)
+      boot(data=x, statistic=D2.boot, R=R, weights = x)
     })
     results <- data.frame(Sample_name=attr(x,"dimnames")[[1]],
                           D0, 
@@ -38,10 +40,11 @@ Diversity <- function(x, d=4, plot=FALSE, R=999){
       p <- ggplot(results, aes(x=seq(1:nrow(results)),y=D2)) + geom_point(shape=16,size=4,alpha=0.7,colour="blue")+
         geom_point(colour = "grey90", size = 1.5) + labs(x="Samples",y="Phenotypic diversity - D2")+
         geom_line(colour="blue",alpha=0.4,linetype=2)+
-        geom_errorbar(aes(ymin=D2-sd.D2,ymax=D2+sd.D2), width=0.25)
+        geom_errorbar(aes(ymin=D2-sd.D2,ymax=D2+sd.D2), width=0.25)+
+        theme_bw()
       print(p)
     }
-    cat(paste0("Alpha diversity metrics (D1,D2) have been computed after ",R," bootstraps"))
+    cat(date(),paste0("\tAlpha diversity metrics (D0,D1,D2) have been computed after ",R," bootstraps"))
     return(results)
 }
 
@@ -301,7 +304,6 @@ trip_col <- function(x,n=3){
 
 FCS.resample <- function(x, sample=0, replace=FALSE){
   library(easyGgplot2)
-  library(devtools)
   sample_distr <- data.frame(counts=fsApply(x,FUN=function(x) nrow(x),use.exprs=TRUE))
   p1 <- ggplot2.histogram(data=sample_distr , xName='counts',
                     fill="white", color="black",
