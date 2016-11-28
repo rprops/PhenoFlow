@@ -3,11 +3,15 @@
 ===============
 - **Authors**: Ruben Props [Ruben.Props@UGent.be], Pieter Monsieurs, Mohamed Mysara, Lieven Clement, Nico Boon
 
+===============
+===============
 # **WARNING:** 
 **The active development of Phenoflow has been shifted [here] (https://github.com/rprops/Phenoflow_package), as an R package. Some major changes have been made, so please use this version. You can download it as such:**
 ```R
 install_github("rprops/Phenoflow_package")
 ```
+===============
+===============
 
 Accompanying code for <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12607/full"> Props et al. (2016), Measuring the biodiversity of microbial communities by flow cytometry, *Methods in Ecology and Evolution*, doi:10.1111/2041-210X.12607</a>
 
