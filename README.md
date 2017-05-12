@@ -5,7 +5,7 @@ Phenotypic alpha-diversity and beta-diversity parameters for flow cytometry data
 ===============
 ===============
 # **WARNING:** 
-**The active development of Phenoflow has been shifted [here] (https://github.com/rprops/Phenoflow_package), as an R package. Some major changes have been made, so please use this version. You can download it as such:**
+**The active development of Phenoflow has been shifted [here](https://github.com/rprops/Phenoflow_package), as an R package. Some major changes have been made, so please use this version. You can download it as such:**
 ```R
 install_github("rprops/Phenoflow_package")
 ```
